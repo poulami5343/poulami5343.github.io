@@ -4,21 +4,34 @@ project:
 website:
   title: "Poulami Sarker"
   navbar:
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
-      - CV.pdf
-      - href: research.qmd
-        text: Research
+    right:
+      - text: About
+        href: index.qmd
+      - text: Resume
+        href: CV.qmd
+      - text: Research
+        href: research.qmd
+
+      - text: Labs
+        href: labs.qmd
+
+      - text: EPPS 6323
+        menu:
+          - text: Weekly Reflections
+            href: weeklyreflectionepps6323.qmd
+          - text: Assignment 1
+            href: epps6323assignment1.qmd
+          - text: Assignment 2
+            href: epps6323assignment2.qmd
+          - text: Assignment 3
+            href: epps6323assignment3.qmd
 
 format:
   html:
     theme:
-      - united
+      - Journal
       - brand
     css: styles.css
     toc: true
 
 editor: visual
-
