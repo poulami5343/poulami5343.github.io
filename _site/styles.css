@@ -1,1 +1,92 @@
-/* css styles */
+.about-header{
+  padding: 22px 24px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+  margin: 10px 0 18px 0;
+}
+
+.about-header h2{
+  margin: 0 0 6px 0;
+  font-size: 1.9rem;
+  letter-spacing: -0.2px;
+}
+
+.about-section{
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+  margin: 14px 0;
+}
+
+.about-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 14px 0;
+}
+
+.about-card{
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.78);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+}
+
+.about-card h3{
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+}
+
+.about-card ul{
+  margin: 0;
+  padding-left: 18px;
+}
+
+@media (max-width: 900px){
+  .about-grid{ grid-template-columns: 1fr; }
+}
+
+h3 {
+  margin-top: 1.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+p {
+  line-height: 1.55;
+}
+
+/* Homepage polish (index page) */
+.quarto-title-block {
+  display: none; /* hides default Quarto title block if it shows */
+}
+
+main.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-top: 3.5rem;
+}
+
+/* Make the first H1 look like a homepage header */
+main.content h1:first-of-type {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  margin-bottom: 0.75rem;
+}
+
+/* Make the intro paragraph look nicer */
+main.content h1:first-of-type + p {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  max-width: 720px;
+  margin-top: 0.25rem;
+}
+
+/* Optional: subtle “card” feel for the homepage text block */
+main.content {
+  background: rgba(255, 255, 255, 0.0);
+}/* css styles */

@@ -1,13 +1,10 @@
 ---
 title: ""
+format: html
 ---
 
-Website of Poulami Sarker
+# Website of Poulami Sarker
 
-Courses
+This website presents my academic profile, including research projects, coursework, and professional updates.
 
-- "Knowledge Mining"
-
-
-
-
+Please use the navigation menu to access the About, Research, and Course sections.

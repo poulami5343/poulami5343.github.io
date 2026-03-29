@@ -1,0 +1,10 @@
+---
+title: "Labs"
+format: html
+---
+
+This page contains all my lab work.
+
+## EPPS 6323 Labs
+- [Lab 1](Labs/Lab01.qmd)
+- [Lab 2](Labs/Lab02.qmd)

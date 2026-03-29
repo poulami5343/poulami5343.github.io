@@ -1,7 +1,43 @@
 ---
-title: "Research"
+title: ""
+format: html
 ---
 
-Current Projects:
+## Research Overview
 
--Synthetic Data
+My research focuses on political economy, labor policy, and global health. I use applied econometric methods and large-scale survey and administrative data to examine how institutions and public policies shape demographic, labor market, and health outcomes.
+
+## Ongoing Projects
+
+### Loss and Longing: Child Loss and Fertility Intentions in Bangladesh
+
+This project examines how experiencing child loss shapes fertility intentions using nationally representative Bangladesh DHS data. I analyze how demographic, socioeconomic, and household factors interact with reproductive preferences after loss. The study contributes to demographic research and reproductive health policy discussions.  
+(PAA 2026 – Poster Presentation)
+
+---
+
+
+### Wrongful Discharge Laws and Labor Productivity
+
+This project studies how the adoption of wrongful discharge laws affects labor productivity and firm outcomes. Leveraging state-level policy variation, I use quasi-experimental methods to assess dynamic effects over time. The research contributes to the political economy of labor regulation and institutional design.  
+(MPSA 2026 – Working Paper Series)
+
+
+
+### Employer-Sponsored Childcare and Employee Retention
+
+This project evaluates whether employer-sponsored childcare programs improve employee retention. Using quasi-experimental strategies, including regression discontinuity designs, I analyze how access to childcare affects workforce stability. The study informs work-family policy and employer-level labor strategies.  
+(WSSA 2026 – Poster Presentation)
+
+---
+
+
+### PEPFAR Funding and Antiretroviral Drug Prices
+
+This project investigates the relationship between PEPFAR funding flows and antiretroviral drug price trends over time. Using cross-national time-series data, I examine whether large-scale donor financing influences market affordability and treatment access. The project contributes to debates on global health financing and procurement sustainability.
+
+---
+
+## Methods
+
+My work applies difference-in-differences, event-study models, regression discontinuity designs, and panel data methods. I primarily use R and Stata for reproducible research and policy-oriented analysis.

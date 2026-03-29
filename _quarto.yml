@@ -6,32 +6,31 @@ website:
   navbar:
     right:
       - text: About
-        href: index.qmd
-      - text: Resume
-        href: CV.qmd
+        href: about.qmd
       - text: Research
         href: research.qmd
-
-      - text: Labs
-        href: labs.qmd
-
       - text: EPPS 6323
         menu:
-          - text: Weekly Reflections
-            href: weeklyreflectionepps6323.qmd
           - text: Assignment 1
             href: epps6323assignment1.qmd
           - text: Assignment 2
             href: epps6323assignment2.qmd
           - text: Assignment 3
             href: epps6323assignment3.qmd
+      - text: Labs
+        menu:
+          - text: Lab 1
+            href: Labs/Lab01.qmd
+          - text: Lab 2
+            href: Labs/Lab02.qmd
+          - text: Lab 3
+            href: Labs/Lab03.qmd
+            
+      - text: Reflections
+        href: weeklyreflectionepps6323.qmd
 
 format:
   html:
-    theme:
-      - Journal
-      - brand
+    theme: journal
     css: styles.css
     toc: true
-
-editor: visual

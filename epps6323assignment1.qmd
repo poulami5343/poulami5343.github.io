@@ -1,5 +1,61 @@
 ---
-title: "Assignment 1"
+title: "EPPS 6323 — Assignment 1"
+author: "Poulami Sarker"
 format: html
 ---
 
+**In addition to the analysis presented in this document, the corresponding lab work (Lab 01 and Lab 02) has been rendered and uploaded to the course website under the “Labs” section. The lab files include the full code, output, and visualizations used in the exploratory data analysis.**
+
+## Q3: Run an exploratory data analysis with R using the TEDS2016 dataset.
+
+## Load packages and data
+
+```{r}
+library(haven)
+library(dplyr)
+
+TEDS_2016 <-
+  haven::read_dta("https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true")
+
+glimpse(TEDS_2016)
+summary(TEDS_2016)
+dim(TEDS_2016)
+```
+## Q4: What problems do you encounter when working with the dataset?
+
+When working with the TEDS_2016 dataset, several practical challenges arise. First, many variables are imported as labelled numeric variables because the file originates from Stata. Although these variables appear numeric, they actually represent categorical responses with value labels. Without converting them appropriately into factors, statistical analysis may incorrectly treat them as continuous variables.
+
+Second, the dataset contains missing values across several key variables, including voting behavior and income. In addition to true NA values, some survey responses are coded using special numeric values (such as 8, 9, 98, or 99) to represent “no response” or “don’t know.” These codes are not automatically recognized as missing in R and must therefore be identified and recoded before analysis.
+
+Another challenge is variable duplication or multiple representations of similar concepts. For example, both Sex and female appear in the dataset, as well as Age and age. It is necessary to inspect the dataset carefully to determine which variable is appropriate for analysis and whether transformations have already been applied.
+
+Finally, many political attitude variables, such as Tondu and education levels, are numerically coded but substantively categorical or ordinal. Treating these variables as continuous without proper recoding could lead to misleading interpretations. Therefore, thorough data cleaning and careful inspection of variable types are essential before proceeding with further analysis.
+
+## Q5: How to deal with missing values?
+
+Handling missing values requires careful consideration. Several variables, such as votetsai, votetsai_all, and income_nm, contain a noticeable proportion of missing observations. In addition to true NA values, certain survey responses use special numeric codes (for example, 9 or 98) to indicate “no response” or “don’t know.” These codes must first be identified and recoded as NA so that they are properly excluded from statistical computations.
+
+For descriptive analyses focusing on specific relationships, listwise deletion is often appropriate when the proportion of missing data is moderate. For instance, when analyzing voting behavior, observations with missing vote responses can be excluded without affecting the remainder of the dataset.
+
+However, in the case of political identity variables such as Tondu, nonresponse may itself carry substantive meaning. In such situations, retaining “no response” as a separate category may be justified rather than automatically removing those observations. Because this dataset consists largely of categorical and ordinal variables, mean imputation would not be appropriate. Ultimately, the strategy for handling missing values depends on the research question, but transparent recoding and reporting are essential before conducting further analysis.
+
+## Q6: Explore the relationship between Tondu and other variables including female, DPP, age, income, edu, Taiwanese and Econ_worse. What methods would you use?
+
+To investigate the relationship between the variable Tondu and other variables such as female, DPP, age, income, education, Taiwanese, and Econ_worse, the first step is to determine the level of measurement of each variable and select appropriate statistical methods accordingly.
+
+The variable Tondu is categorical and reflects respondents’ attitudes toward Taiwan’s independence or unification. Therefore, when examining its relationship with other categorical variables such as female, DPP, Taiwanese, and Econ_worse, cross-tabulations and contingency tables are appropriate starting points. These allow us to observe how the distribution of attitudes varies across groups. A Chi-square test can then be used to evaluate whether the association between variables is statistically significant.
+
+When exploring the relationship between Tondu and continuous variables such as age and income, it is appropriate to compare the mean values of these variables across different categories of Tondu. This can be done using descriptive statistics or visualizations such as boxplots. If necessary, an ANOVA test could also be applied to assess whether mean differences across categories are statistically significant.
+
+Beyond descriptive analysis, regression techniques can provide a more comprehensive examination of the relationships. Because Tondu is a categorical variable with multiple categories, multinomial logistic regression would be an appropriate method to model how demographic characteristics, party identification, identity, and economic perceptions influence attitudes toward unification or independence. This approach allows for simultaneous control of multiple explanatory variables and provides a clearer understanding of their independent effects.
+
+
+## How about the votetsai variable (vote for DPP candidate Tsai Ing-wen)?
+
+The votetsai variable indicates whether the respondent voted for the DPP candidate Tsai Ing-wen and is therefore a binary outcome variable. To analyze its relationship with other variables, methods appropriate for binary dependent variables should be used.
+
+Initially, descriptive statistics and cross-tabulations can be employed to examine how voting behavior varies across categories of Tondu, gender, party identification, Taiwanese identity, and economic perceptions. Bar charts or proportion plots can help visualize these differences.
+
+To further investigate the determinants of voting behavior, logistic regression is the most appropriate method. Logistic regression models the probability of voting for Tsai Ing-wen as a function of predictor variables such as political attitudes, demographic characteristics, party identification, and economic perceptions. This method allows for estimation of the independent effect of each variable while controlling for others, making it particularly suitable for analyzing binary political outcomes.
+
+**In addition to the analysis presented in this document, the corresponding lab work (Lab 01 and Lab 02) has been rendered and uploaded to the course website under the “Labs” section. The lab files include the full code, output, and visualizations used in the exploratory data analysis.**

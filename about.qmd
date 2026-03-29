@@ -1,5 +1,38 @@
 ---
-title: "About"
+title: ""
+format:
+  html:
+    toc: false
 ---
 
-Poulami Sarker is a doctorate student in the University of Texas at Dallas. She is doing her PhD in Public Policy and Political Economy.Her resaerch focus is in political economy of health, health policy and systems. 
+::: {.about-header}
+## Poulami Sarker
+PhD Student, Public Policy & Political Economy  
+The University of Texas at Dallas
+:::
+
+::: {.about-section}
+### Research interests
+My research focuses on the political economy of health, health policy, and applied policy evaluation. I am particularly interested in how institutional design and policy changes shape behavior and outcomes, using quantitative and quasi-experimental approaches.
+:::
+
+::: {.about-grid}
+::: {.about-card}
+### Current research themes
+- Political economy of health and health systems  
+- Policy evaluation and causal inference  
+- Labor and productivity policy questions  
+:::
+
+::: {.about-card}
+### Methods and tools
+- Methods: Regression, Causal inference, Quasi-experimental designs  
+- Tools: R, Quarto, Stata  
+- Outputs: Reproducible reports, Web publishing, Data visualization  
+:::
+:::
+
+::: {.about-section}
+### Website note
+Course assignments, reflections and lab works are posted under the Labs and EPPS 6323 tabs in the navigation bar.
+:::
