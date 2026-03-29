@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Poulami Sarker">
 
-<title>Assignment 3 – Poulami Sarker</title>
+<title>EPPS 6323 — Assignment 3 – Poulami Sarker</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -151,21 +187,41 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link active" data-scroll-target="#load-data">3.Load Data:</a></li>
+  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression">4. Multiple Regression:</a></li>
+  <li><a href="#function-regplot" id="toc-function-regplot" class="nav-link" data-scroll-target="#function-regplot">Function: regplot:</a></li>
+  <li><a href="#regplot-on-the-dependent-variables" id="toc-regplot-on-the-dependent-variables" class="nav-link" data-scroll-target="#regplot-on-the-dependent-variables">5. Regplot on the Dependent Variables</a></li>
+  <li><a href="#regression-plot-age" id="toc-regression-plot-age" class="nav-link" data-scroll-target="#regression-plot-age">Regression Plot: Age:</a></li>
+  <li><a href="#regression-plot-education" id="toc-regression-plot-education" class="nav-link" data-scroll-target="#regression-plot-education">Regression Plot: Education:</a></li>
+  <li><a href="#regression-plot-income" id="toc-regression-plot-income" class="nav-link" data-scroll-target="#regression-plot-income">Regression Plot: Income:</a></li>
+  <li><a href="#what-is-the-problem-and-why" id="toc-what-is-the-problem-and-why" class="nav-link" data-scroll-target="#what-is-the-problem-and-why">6. What is the problem and why?</a></li>
+  <li><a href="#how-can-prediction-be-improved" id="toc-how-can-prediction-be-improved" class="nav-link" data-scroll-target="#how-can-prediction-be-improved">7. How can prediction be improved?</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Assignment 3</h1>
+<h1 class="title">EPPS 6323 — Assignment 3</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Poulami Sarker </p>
+          </div>
+  </div>
     
   
     
@@ -176,8 +232,83 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><strong>In addition to the analysis presented in this document, the corresponding lab work (Lab_ML01) has been rendered and uploaded to the course website under the “Labs” section as Lab 3. The lab files include the full code, output, and visualizations used in the exploratory data analysis</strong></p>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">3.Load Data:</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span> <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="multiple-regression" class="level2">
+<h2 class="anchored" data-anchor-id="multiple-regression">4. Multiple Regression:</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Tondu <span class="sc">~</span> age <span class="sc">+</span> edu <span class="sc">+</span> income, <span class="at">data =</span> TEDS_2016)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="function-regplot" class="level2">
+<h2 class="anchored" data-anchor-id="function-regplot">Function: regplot:</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>regplot<span class="ot">=</span><span class="cf">function</span>(x,y){</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a> fit<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(x,y)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">abline</span>(fit,<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="regplot-on-the-dependent-variables" class="level2">
+<h2 class="anchored" data-anchor-id="regplot-on-the-dependent-variables">5. Regplot on the Dependent Variables</h2>
+</section>
+<section id="regression-plot-age" class="level2">
+<h2 class="anchored" data-anchor-id="regression-plot-age">Regression Plot: Age:</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>age, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="regression-plot-education" class="level2">
+<h2 class="anchored" data-anchor-id="regression-plot-education">Regression Plot: Education:</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>edu, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="regression-plot-income" class="level2">
+<h2 class="anchored" data-anchor-id="regression-plot-income">Regression Plot: Income:</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>income, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="what-is-the-problem-and-why" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-problem-and-why">6. What is the problem and why?</h2>
+<p>The dependent variable (Tondu) has multiple categories (more than two categories), so it is not a continuous variable. Linear regression assumes a continuous dependent variable with equal spacing between values, which is not appropriate here. Because Tondu is categorical with several categories, the regression model and plots are not suitable.</p>
+</section>
+<section id="how-can-prediction-be-improved" class="level2">
+<h2 class="anchored" data-anchor-id="how-can-prediction-be-improved">7. How can prediction be improved?</h2>
+<p>To improve prediction, a model suitable for categorical outcomes should be used. For example, ordinal logistic regression or multinomial logistic regression would be more appropriate because they can handle multiple categories in the dependent variable without assuming equal distance between them.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
