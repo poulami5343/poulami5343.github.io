@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,35 +104,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -190,94 +196,6 @@ window.Quarto = {
   <li><a href="#epps-6323-knowledge-mining" id="toc-epps-6323-knowledge-mining" class="nav-link" data-scroll-target="#epps-6323-knowledge-mining">EPPS 6323 Knowledge Mining</a></li>
   <li><a href="#karl-ho-university-of-texas-at-dallas" id="toc-karl-ho-university-of-texas-at-dallas" class="nav-link" data-scroll-target="#karl-ho-university-of-texas-at-dallas">Karl Ho, University of Texas at Dallas</a></li>
   <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1">============================================================================</a></li>
-  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2">—————————————————————————-</a></li>
-  <li><a href="#setup-packages-and-data" id="toc-setup-packages-and-data" class="nav-link" data-scroll-target="#setup-packages-and-data">0. Setup: Packages and Data</a></li>
-  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3">—————————————————————————-</a></li>
-  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load data</a></li>
-  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4">============================================================================</a></li>
-  <li><a href="#part-i-exploratory-data-analysis" id="toc-part-i-exploratory-data-analysis" class="nav-link" data-scroll-target="#part-i-exploratory-data-analysis">PART I: EXPLORATORY DATA ANALYSIS</a></li>
-  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5">============================================================================</a></li>
-  <li><a href="#section-6" id="toc-section-6" class="nav-link" data-scroll-target="#section-6">—————————————————————————-</a></li>
-  <li><a href="#q1.-data-overview" id="toc-q1.-data-overview" class="nav-link" data-scroll-target="#q1.-data-overview">Q1. Data overview</a></li>
-  <li><a href="#section-7" id="toc-section-7" class="nav-link" data-scroll-target="#section-7">—————————————————————————-</a></li>
-  <li><a href="#section-8" id="toc-section-8" class="nav-link" data-scroll-target="#section-8">—————————————————————————-</a></li>
-  <li><a href="#q2.-missing-data-assessment" id="toc-q2.-missing-data-assessment" class="nav-link" data-scroll-target="#q2.-missing-data-assessment">Q2. Missing data assessment</a></li>
-  <li><a href="#section-9" id="toc-section-9" class="nav-link" data-scroll-target="#section-9">—————————————————————————-</a></li>
-  <li><a href="#visualize-missingness" id="toc-visualize-missingness" class="nav-link" data-scroll-target="#visualize-missingness">Visualize missingness</a></li>
-  <li><a href="#section-10" id="toc-section-10" class="nav-link" data-scroll-target="#section-10">—————————————————————————-</a></li>
-  <li><a href="#q3.-variable-recoding" id="toc-q3.-variable-recoding" class="nav-link" data-scroll-target="#q3.-variable-recoding">Q3. Variable recoding</a></li>
-  <li><a href="#section-11" id="toc-section-11" class="nav-link" data-scroll-target="#section-11">—————————————————————————-</a></li>
-  <li><a href="#section-12" id="toc-section-12" class="nav-link" data-scroll-target="#section-12">—————————————————————————-</a></li>
-  <li><a href="#q4.-vote-choice-distribution" id="toc-q4.-vote-choice-distribution" class="nav-link" data-scroll-target="#q4.-vote-choice-distribution">Q4. Vote choice distribution</a></li>
-  <li><a href="#section-13" id="toc-section-13" class="nav-link" data-scroll-target="#section-13">—————————————————————————-</a></li>
-  <li><a href="#section-14" id="toc-section-14" class="nav-link" data-scroll-target="#section-14">—————————————————————————-</a></li>
-  <li><a href="#q5.-age-distribution" id="toc-q5.-age-distribution" class="nav-link" data-scroll-target="#q5.-age-distribution">Q5. Age distribution</a></li>
-  <li><a href="#section-15" id="toc-section-15" class="nav-link" data-scroll-target="#section-15">—————————————————————————-</a></li>
-  <li><a href="#section-16" id="toc-section-16" class="nav-link" data-scroll-target="#section-16">—————————————————————————-</a></li>
-  <li><a href="#q6.-vote-by-gender" id="toc-q6.-vote-by-gender" class="nav-link" data-scroll-target="#q6.-vote-by-gender">Q6. Vote by gender</a></li>
-  <li><a href="#section-17" id="toc-section-17" class="nav-link" data-scroll-target="#section-17">—————————————————————————-</a></li>
-  <li><a href="#section-18" id="toc-section-18" class="nav-link" data-scroll-target="#section-18">—————————————————————————-</a></li>
-  <li><a href="#q7.-age-by-vote-choice" id="toc-q7.-age-by-vote-choice" class="nav-link" data-scroll-target="#q7.-age-by-vote-choice">Q7. Age by vote choice</a></li>
-  <li><a href="#section-19" id="toc-section-19" class="nav-link" data-scroll-target="#section-19">—————————————————————————-</a></li>
-  <li><a href="#section-20" id="toc-section-20" class="nav-link" data-scroll-target="#section-20">—————————————————————————-</a></li>
-  <li><a href="#q8.-correlation-matrix" id="toc-q8.-correlation-matrix" class="nav-link" data-scroll-target="#q8.-correlation-matrix">Q8. Correlation matrix</a></li>
-  <li><a href="#section-21" id="toc-section-21" class="nav-link" data-scroll-target="#section-21">—————————————————————————-</a></li>
-  <li><a href="#section-22" id="toc-section-22" class="nav-link" data-scroll-target="#section-22">—————————————————————————-</a></li>
-  <li><a href="#q9.-pairs-plot" id="toc-q9.-pairs-plot" class="nav-link" data-scroll-target="#q9.-pairs-plot">Q9. Pairs plot</a></li>
-  <li><a href="#section-23" id="toc-section-23" class="nav-link" data-scroll-target="#section-23">—————————————————————————-</a></li>
-  <li><a href="#section-24" id="toc-section-24" class="nav-link" data-scroll-target="#section-24">============================================================================</a></li>
-  <li><a href="#part-ii-unsupervised-learning" id="toc-part-ii-unsupervised-learning" class="nav-link" data-scroll-target="#part-ii-unsupervised-learning">PART II: UNSUPERVISED LEARNING</a></li>
-  <li><a href="#section-25" id="toc-section-25" class="nav-link" data-scroll-target="#section-25">============================================================================</a></li>
-  <li><a href="#section-26" id="toc-section-26" class="nav-link" data-scroll-target="#section-26">—————————————————————————-</a></li>
-  <li><a href="#prepare-data-for-clustering" id="toc-prepare-data-for-clustering" class="nav-link" data-scroll-target="#prepare-data-for-clustering">Prepare data for clustering</a></li>
-  <li><a href="#section-27" id="toc-section-27" class="nav-link" data-scroll-target="#section-27">—————————————————————————-</a></li>
-  <li><a href="#section-28" id="toc-section-28" class="nav-link" data-scroll-target="#section-28">—————————————————————————-</a></li>
-  <li><a href="#q10.-choosing-k-elbow-method" id="toc-q10.-choosing-k-elbow-method" class="nav-link" data-scroll-target="#q10.-choosing-k-elbow-method">Q10. Choosing k: Elbow method</a></li>
-  <li><a href="#section-29" id="toc-section-29" class="nav-link" data-scroll-target="#section-29">—————————————————————————-</a></li>
-  <li><a href="#silhouette-method" id="toc-silhouette-method" class="nav-link" data-scroll-target="#silhouette-method">Silhouette method</a></li>
-  <li><a href="#section-30" id="toc-section-30" class="nav-link" data-scroll-target="#section-30">—————————————————————————-</a></li>
-  <li><a href="#q11.-k-means-clustering" id="toc-q11.-k-means-clustering" class="nav-link" data-scroll-target="#q11.-k-means-clustering">Q11. K-Means clustering</a></li>
-  <li><a href="#section-31" id="toc-section-31" class="nav-link" data-scroll-target="#section-31">—————————————————————————-</a></li>
-  <li><a href="#visualize-clusters" id="toc-visualize-clusters" class="nav-link" data-scroll-target="#visualize-clusters">Visualize clusters</a></li>
-  <li><a href="#section-32" id="toc-section-32" class="nav-link" data-scroll-target="#section-32">—————————————————————————-</a></li>
-  <li><a href="#q12.-cluster-profiling" id="toc-q12.-cluster-profiling" class="nav-link" data-scroll-target="#q12.-cluster-profiling">Q12. Cluster profiling</a></li>
-  <li><a href="#section-33" id="toc-section-33" class="nav-link" data-scroll-target="#section-33">—————————————————————————-</a></li>
-  <li><a href="#section-34" id="toc-section-34" class="nav-link" data-scroll-target="#section-34">—————————————————————————-</a></li>
-  <li><a href="#q13.-clusters-vs.-vote-choice" id="toc-q13.-clusters-vs.-vote-choice" class="nav-link" data-scroll-target="#q13.-clusters-vs.-vote-choice">Q13. Clusters vs.&nbsp;vote choice</a></li>
-  <li><a href="#section-35" id="toc-section-35" class="nav-link" data-scroll-target="#section-35">—————————————————————————-</a></li>
-  <li><a href="#section-36" id="toc-section-36" class="nav-link" data-scroll-target="#section-36">—————————————————————————-</a></li>
-  <li><a href="#q14.-principal-component-analysis" id="toc-q14.-principal-component-analysis" class="nav-link" data-scroll-target="#q14.-principal-component-analysis">Q14. Principal Component Analysis</a></li>
-  <li><a href="#section-37" id="toc-section-37" class="nav-link" data-scroll-target="#section-37">—————————————————————————-</a></li>
-  <li><a href="#scree-plot" id="toc-scree-plot" class="nav-link" data-scroll-target="#scree-plot">Scree plot</a></li>
-  <li><a href="#section-38" id="toc-section-38" class="nav-link" data-scroll-target="#section-38">—————————————————————————-</a></li>
-  <li><a href="#q15.-pca-variable-contributions" id="toc-q15.-pca-variable-contributions" class="nav-link" data-scroll-target="#q15.-pca-variable-contributions">Q15. PCA variable contributions</a></li>
-  <li><a href="#section-39" id="toc-section-39" class="nav-link" data-scroll-target="#section-39">—————————————————————————-</a></li>
-  <li><a href="#pca-individuals-by-vote" id="toc-pca-individuals-by-vote" class="nav-link" data-scroll-target="#pca-individuals-by-vote">PCA individuals by vote</a></li>
-  <li><a href="#section-40" id="toc-section-40" class="nav-link" data-scroll-target="#section-40">============================================================================</a></li>
-  <li><a href="#part-iii-supervised-learning" id="toc-part-iii-supervised-learning" class="nav-link" data-scroll-target="#part-iii-supervised-learning">PART III: SUPERVISED LEARNING</a></li>
-  <li><a href="#section-41" id="toc-section-41" class="nav-link" data-scroll-target="#section-41">============================================================================</a></li>
-  <li><a href="#section-42" id="toc-section-42" class="nav-link" data-scroll-target="#section-42">—————————————————————————-</a></li>
-  <li><a href="#q16.-train-test-split" id="toc-q16.-train-test-split" class="nav-link" data-scroll-target="#q16.-train-test-split">Q16. Train-test split</a></li>
-  <li><a href="#section-43" id="toc-section-43" class="nav-link" data-scroll-target="#section-43">—————————————————————————-</a></li>
-  <li><a href="#section-44" id="toc-section-44" class="nav-link" data-scroll-target="#section-44">—————————————————————————-</a></li>
-  <li><a href="#q17.-logistic-regression" id="toc-q17.-logistic-regression" class="nav-link" data-scroll-target="#q17.-logistic-regression">Q17. Logistic regression</a></li>
-  <li><a href="#section-45" id="toc-section-45" class="nav-link" data-scroll-target="#section-45">—————————————————————————-</a></li>
-  <li><a href="#evaluation" id="toc-evaluation" class="nav-link" data-scroll-target="#evaluation">Evaluation</a></li>
-  <li><a href="#section-46" id="toc-section-46" class="nav-link" data-scroll-target="#section-46">—————————————————————————-</a></li>
-  <li><a href="#q18.-decision-tree" id="toc-q18.-decision-tree" class="nav-link" data-scroll-target="#q18.-decision-tree">Q18. Decision tree</a></li>
-  <li><a href="#section-47" id="toc-section-47" class="nav-link" data-scroll-target="#section-47">—————————————————————————-</a></li>
-  <li><a href="#evaluation-1" id="toc-evaluation-1" class="nav-link" data-scroll-target="#evaluation-1">Evaluation</a></li>
-  <li><a href="#section-48" id="toc-section-48" class="nav-link" data-scroll-target="#section-48">—————————————————————————-</a></li>
-  <li><a href="#q19.-random-forest" id="toc-q19.-random-forest" class="nav-link" data-scroll-target="#q19.-random-forest">Q19. Random forest</a></li>
-  <li><a href="#section-49" id="toc-section-49" class="nav-link" data-scroll-target="#section-49">—————————————————————————-</a></li>
-  <li><a href="#evaluation-2" id="toc-evaluation-2" class="nav-link" data-scroll-target="#evaluation-2">Evaluation</a></li>
-  <li><a href="#section-50" id="toc-section-50" class="nav-link" data-scroll-target="#section-50">—————————————————————————-</a></li>
-  <li><a href="#q20.-variable-importance" id="toc-q20.-variable-importance" class="nav-link" data-scroll-target="#q20.-variable-importance">Q20. Variable importance</a></li>
-  <li><a href="#section-51" id="toc-section-51" class="nav-link" data-scroll-target="#section-51">—————————————————————————-</a></li>
-  <li><a href="#section-52" id="toc-section-52" class="nav-link" data-scroll-target="#section-52">—————————————————————————-</a></li>
-  <li><a href="#q21.-model-comparison" id="toc-q21.-model-comparison" class="nav-link" data-scroll-target="#q21.-model-comparison">Q21. Model comparison</a></li>
-  <li><a href="#section-53" id="toc-section-53" class="nav-link" data-scroll-target="#section-53">—————————————————————————-</a></li>
-  <li><a href="#comparison-plot" id="toc-comparison-plot" class="nav-link" data-scroll-target="#comparison-plot">Comparison plot</a></li>
   </ul>
 </nav>
     </div>
@@ -301,317 +219,1065 @@ window.Quarto = {
 </section>
 <section id="section-1" class="level1">
 <h1>============================================================================</h1>
-</section>
-<section id="section-2" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="setup-packages-and-data" class="level1">
-<h1>0. Setup: Packages and Data</h1>
-</section>
-<section id="section-3" class="level1">
-<h1>—————————————————————————-</h1>
-<p>library(haven) # Read Stata files library(tidyverse) # Data wrangling and visualization library(GGally) # Pairs plots library(cluster) # Clustering library(factoextra) # Visualize clusters and PCA library(rpart) # Decision trees library(rpart.plot) # Plot decision trees library(randomForest) # Random forest library(caret) # Model training and evaluation library(e1071) # SVM and Naive Bayes</p>
-</section>
-<section id="load-data" class="level1">
-<h1>Load data</h1>
-<p>TEDS_2016 &lt;- read_stata(“https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true”)</p>
-</section>
-<section id="section-4" class="level1">
-<h1>============================================================================</h1>
-</section>
-<section id="part-i-exploratory-data-analysis" class="level1">
-<h1>PART I: EXPLORATORY DATA ANALYSIS</h1>
-</section>
-<section id="section-5" class="level1">
-<h1>============================================================================</h1>
-</section>
-<section id="section-6" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q1.-data-overview" class="level1">
-<h1>Q1. Data overview</h1>
-</section>
-<section id="section-7" class="level1">
-<h1>—————————————————————————-</h1>
-<p>dim(TEDS_2016) names(TEDS_2016) summary(TEDS_2016)</p>
-</section>
-<section id="section-8" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q2.-missing-data-assessment" class="level1">
-<h1>Q2. Missing data assessment</h1>
-</section>
-<section id="section-9" class="level1">
-<h1>—————————————————————————-</h1>
-<p>TEDS_2016 %&gt;% summarise(across(everything(), ~sum(is.na(.)))) %&gt;% pivot_longer(everything(), names_to = “variable”, values_to = “n_missing”) %&gt;% filter(n_missing &gt; 0) %&gt;% arrange(desc(n_missing))</p>
-</section>
-<section id="visualize-missingness" class="level1">
-<h1>Visualize missingness</h1>
-<p>TEDS_2016 %&gt;% summarise(across(everything(), ~sum(is.na(.)))) %&gt;% pivot_longer(everything(), names_to = “variable”, values_to = “n_missing”) %&gt;% filter(n_missing &gt; 0) %&gt;% ggplot(aes(x = reorder(variable, n_missing), y = n_missing)) + geom_col(fill = “steelblue”) + coord_flip() + labs(title = “Missing Values by Variable”, x = NULL, y = “Count of Missing Values”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="section-10" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q3.-variable-recoding" class="level1">
-<h1>Q3. Variable recoding</h1>
-</section>
-<section id="section-11" class="level1">
-<h1>—————————————————————————-</h1>
-<p>teds &lt;- TEDS_2016 %&gt;% mutate( vote = factor(votetsai, levels = c(0, 1), labels = c(“Other”, “Tsai”)), gender = factor(female, levels = c(0, 1), labels = c(“Male”, “Female”)), Tondu = as.factor(Tondu), Party = as.factor(Party) ) %&gt;% dplyr::select(vote, gender, age, edu, income, Taiwanese, Econ_worse, Tondu, Party, DPP) %&gt;% drop_na()</p>
-<p>glimpse(teds)</p>
-</section>
-<section id="section-12" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q4.-vote-choice-distribution" class="level1">
-<h1>Q4. Vote choice distribution</h1>
-</section>
-<section id="section-13" class="level1">
-<h1>—————————————————————————-</h1>
-<p>ggplot(teds, aes(x = vote, fill = vote)) + geom_bar() + scale_fill_manual(values = c(“Other” = “#2980b9”, “Tsai” = “#27ae60”)) + labs(title = “Vote Choice Distribution”, subtitle = “TEDS 2016: Tsai Ing-wen vs.&nbsp;Other Candidates”, x = “Vote Choice”, y = “Count”) + theme_minimal(base_size = 18) + theme(legend.position = “none”)</p>
-</section>
-<section id="section-14" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q5.-age-distribution" class="level1">
-<h1>Q5. Age distribution</h1>
-</section>
-<section id="section-15" class="level1">
-<h1>—————————————————————————-</h1>
-<p>ggplot(teds, aes(x = age)) + geom_histogram(binwidth = 5, fill = “steelblue”, color = “white”) + labs(title = “Age Distribution of Respondents”, x = “Age”, y = “Count”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="section-16" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q6.-vote-by-gender" class="level1">
-<h1>Q6. Vote by gender</h1>
-</section>
-<section id="section-17" class="level1">
-<h1>—————————————————————————-</h1>
-<p>ggplot(teds, aes(x = gender, fill = vote)) + geom_bar(position = “fill”) + scale_fill_manual(values = c(“Other” = “#2980b9”, “Tsai” = “#27ae60”)) + labs(title = “Vote Choice by Gender”, x = “Gender”, y = “Proportion”, fill = “Vote”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="section-18" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q7.-age-by-vote-choice" class="level1">
-<h1>Q7. Age by vote choice</h1>
-</section>
-<section id="section-19" class="level1">
-<h1>—————————————————————————-</h1>
-<p>ggplot(teds, aes(x = vote, y = age, fill = vote)) + geom_boxplot() + scale_fill_manual(values = c(“Other” = “#2980b9”, “Tsai” = “#27ae60”)) + labs(title = “Age Distribution by Vote Choice”, x = “Vote Choice”, y = “Age”) + theme_minimal(base_size = 18) + theme(legend.position = “none”)</p>
-</section>
-<section id="section-20" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q8.-correlation-matrix" class="level1">
-<h1>Q8. Correlation matrix</h1>
-</section>
-<section id="section-21" class="level1">
-<h1>—————————————————————————-</h1>
-<p>teds %&gt;% dplyr::select(age, edu, income, Taiwanese, Econ_worse, DPP) %&gt;% cor(use = “complete.obs”) %&gt;% as.data.frame() %&gt;% rownames_to_column(“var1”) %&gt;% pivot_longer(-var1, names_to = “var2”, values_to = “cor”) %&gt;% ggplot(aes(x = var1, y = var2, fill = cor)) + geom_tile() + geom_text(aes(label = round(cor, 2)), size = 6) + scale_fill_gradient2(low = “#e74c3c”, mid = “white”, high = “#2980b9”, midpoint = 0, limits = c(-1, 1)) + labs(title = “Correlation Matrix of Numeric Variables”, x = NULL, y = NULL) + theme_minimal(base_size = 18) + theme(axis.text.x = element_text(angle = 45, hjust = 1))</p>
-</section>
-<section id="section-22" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q9.-pairs-plot" class="level1">
-<h1>Q9. Pairs plot</h1>
-</section>
-<section id="section-23" class="level1">
-<h1>—————————————————————————-</h1>
-<p>teds %&gt;% dplyr::select(age, edu, income, Taiwanese, Econ_worse, vote) %&gt;% ggpairs(aes(color = vote, alpha = 0.5), upper = list(continuous = wrap(“cor”, size = 4)), lower = list(continuous = wrap(“points”, size = 0.5))) + scale_color_manual(values = c(“Other” = “#2980b9”, “Tsai” = “#27ae60”)) + scale_fill_manual(values = c(“Other” = “#2980b9”, “Tsai” = “#27ae60”)) + theme_minimal(base_size = 14)</p>
-</section>
-<section id="section-24" class="level1">
-<h1>============================================================================</h1>
-</section>
-<section id="part-ii-unsupervised-learning" class="level1">
-<h1>PART II: UNSUPERVISED LEARNING</h1>
-</section>
-<section id="section-25" class="level1">
-<h1>============================================================================</h1>
-</section>
-<section id="section-26" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="prepare-data-for-clustering" class="level1">
-<h1>Prepare data for clustering</h1>
-</section>
-<section id="section-27" class="level1">
-<h1>—————————————————————————-</h1>
-<p>teds_numeric &lt;- teds %&gt;% dplyr::select(age, edu, income, Taiwanese, Econ_worse, DPP) %&gt;% scale() %&gt;% as.data.frame()</p>
-<p>head(teds_numeric)</p>
-</section>
-<section id="section-28" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q10.-choosing-k-elbow-method" class="level1">
-<h1>Q10. Choosing k: Elbow method</h1>
-</section>
-<section id="section-29" class="level1">
-<h1>—————————————————————————-</h1>
-<p>fviz_nbclust(teds_numeric, kmeans, method = “wss”, k.max = 10) + labs(title = “Elbow Method: Optimal Number of Clusters”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="silhouette-method" class="level1">
-<h1>Silhouette method</h1>
-<p>fviz_nbclust(teds_numeric, kmeans, method = “silhouette”, k.max = 10) + labs(title = “Silhouette Method: Optimal Number of Clusters”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="section-30" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q11.-k-means-clustering" class="level1">
-<h1>Q11. K-Means clustering</h1>
-</section>
-<section id="section-31" class="level1">
-<h1>—————————————————————————-</h1>
-<p>set.seed(6323) km_result &lt;- kmeans(teds_numeric, centers = 3, nstart = 25)</p>
-<p>table(km_result<span class="math inline">\(cluster)
-round(km_result\)</span>centers, 2)</p>
-</section>
-<section id="visualize-clusters" class="level1">
-<h1>Visualize clusters</h1>
-<p>fviz_cluster(km_result, data = teds_numeric, geom = “point”, ellipse.type = “convex”, palette = c(“#e74c3c”, “#2980b9”, “#27ae60”), ggtheme = theme_minimal(base_size = 18)) + labs(title = “K-Means Clustering of TEDS 2016 Voters (k = 3)”)</p>
-</section>
-<section id="section-32" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q12.-cluster-profiling" class="level1">
-<h1>Q12. Cluster profiling</h1>
-</section>
-<section id="section-33" class="level1">
-<h1>—————————————————————————-</h1>
-<p>teds<span class="math inline">\(cluster &lt;- as.factor(km_result\)</span>cluster)</p>
-<p>teds %&gt;% group_by(cluster) %&gt;% summarise( n = n(), mean_age = round(mean(age), 1), mean_edu = round(mean(edu), 1), mean_income = round(mean(income), 1), pct_Taiwanese = round(mean(Taiwanese) * 100, 1), pct_Econ_worse = round(mean(Econ_worse) * 100, 1), mean_DPP = round(mean(DPP), 2), pct_Tsai = round(mean(vote == “Tsai”) * 100, 1) )</p>
-</section>
-<section id="section-34" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q13.-clusters-vs.-vote-choice" class="level1">
-<h1>Q13. Clusters vs.&nbsp;vote choice</h1>
-</section>
-<section id="section-35" class="level1">
-<h1>—————————————————————————-</h1>
-<p>ggplot(teds, aes(x = cluster, fill = vote)) + geom_bar(position = “fill”) + scale_fill_manual(values = c(“Other” = “#2980b9”, “Tsai” = “#27ae60”)) + labs(title = “Vote Choice Distribution by Cluster”, x = “Cluster”, y = “Proportion”, fill = “Vote”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="section-36" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q14.-principal-component-analysis" class="level1">
-<h1>Q14. Principal Component Analysis</h1>
-</section>
-<section id="section-37" class="level1">
-<h1>—————————————————————————-</h1>
-<p>pca_result &lt;- prcomp(teds_numeric, scale. = TRUE) summary(pca_result)</p>
-</section>
-<section id="scree-plot" class="level1">
-<h1>Scree plot</h1>
-<p>fviz_eig(pca_result, addlabels = TRUE) + labs(title = “Scree Plot: Variance Explained by Each PC”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="section-38" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q15.-pca-variable-contributions" class="level1">
-<h1>Q15. PCA variable contributions</h1>
-</section>
-<section id="section-39" class="level1">
-<h1>—————————————————————————-</h1>
-<p>fviz_pca_var(pca_result, col.var = “contrib”, gradient.cols = c(“#00AFBB”, “#E7B800”, “#FC4E07”), repel = TRUE) + labs(title = “PCA: Variable Contributions”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="pca-individuals-by-vote" class="level1">
-<h1>PCA individuals by vote</h1>
-<p>fviz_pca_ind(pca_result, geom = “point”, col.ind = teds$vote, palette = c(“#2980b9”, “#27ae60”), addEllipses = TRUE, legend.title = “Vote”) + labs(title = “PCA: Voters Projected onto First Two PCs”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="section-40" class="level1">
-<h1>============================================================================</h1>
-</section>
-<section id="part-iii-supervised-learning" class="level1">
-<h1>PART III: SUPERVISED LEARNING</h1>
-</section>
-<section id="section-41" class="level1">
-<h1>============================================================================</h1>
-</section>
-<section id="section-42" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q16.-train-test-split" class="level1">
-<h1>Q16. Train-test split</h1>
-</section>
-<section id="section-43" class="level1">
-<h1>—————————————————————————-</h1>
-<p>set.seed(6323)</p>
-<p>train_index &lt;- createDataPartition(teds$vote, p = 0.7, list = FALSE) train_data &lt;- teds[train_index, ] %&gt;% dplyr::select(-cluster) test_data &lt;- teds[-train_index, ] %&gt;% dplyr::select(-cluster)</p>
-<p>cat(“Training set:”, nrow(train_data), “observations”) cat(“Test set:”, nrow(test_data), “observations”) prop.table(table(train_data$vote))</p>
-</section>
-<section id="section-44" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q17.-logistic-regression" class="level1">
-<h1>Q17. Logistic regression</h1>
-</section>
-<section id="section-45" class="level1">
-<h1>—————————————————————————-</h1>
-<p>logit_model &lt;- glm(vote ~ age + gender + edu + income + Taiwanese + Econ_worse + DPP, data = train_data, family = binomial)</p>
-<p>summary(logit_model)</p>
-</section>
-<section id="evaluation" class="level1">
-<h1>Evaluation</h1>
-<p>logit_probs &lt;- predict(logit_model, newdata = test_data, type = “response”) logit_pred &lt;- ifelse(logit_probs &gt; 0.5, “Tsai”, “Other”) logit_pred &lt;- factor(logit_pred, levels = c(“Other”, “Tsai”))</p>
-<p>confusionMatrix(logit_pred, test_data$vote)</p>
-</section>
-<section id="section-46" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q18.-decision-tree" class="level1">
-<h1>Q18. Decision tree</h1>
-</section>
-<section id="section-47" class="level1">
-<h1>—————————————————————————-</h1>
-<p>tree_model &lt;- rpart(vote ~ age + gender + edu + income + Taiwanese + Econ_worse + DPP, data = train_data, method = “class”)</p>
-<p>rpart.plot(tree_model, type = 4, extra = 104, main = “Decision Tree: Predicting Vote Choice”, box.palette = “BuGn”, cex = 1.2)</p>
-</section>
-<section id="evaluation-1" class="level1">
-<h1>Evaluation</h1>
-<p>tree_pred &lt;- predict(tree_model, newdata = test_data, type = “class”) confusionMatrix(tree_pred, test_data$vote)</p>
-</section>
-<section id="section-48" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q19.-random-forest" class="level1">
-<h1>Q19. Random forest</h1>
-</section>
-<section id="section-49" class="level1">
-<h1>—————————————————————————-</h1>
-<p>set.seed(6323)</p>
-<p>rf_model &lt;- randomForest(vote ~ age + gender + edu + income + Taiwanese + Econ_worse + DPP, data = train_data, ntree = 500, importance = TRUE)</p>
-<p>print(rf_model)</p>
-</section>
-<section id="evaluation-2" class="level1">
-<h1>Evaluation</h1>
-<p>rf_pred &lt;- predict(rf_model, newdata = test_data) confusionMatrix(rf_pred, test_data$vote)</p>
-</section>
-<section id="section-50" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q20.-variable-importance" class="level1">
-<h1>Q20. Variable importance</h1>
-</section>
-<section id="section-51" class="level1">
-<h1>—————————————————————————-</h1>
-<p>importance_df &lt;- as.data.frame(importance(rf_model)) %&gt;% rownames_to_column(“variable”) %&gt;% arrange(desc(MeanDecreaseGini))</p>
-<p>ggplot(importance_df, aes(x = reorder(variable, MeanDecreaseGini), y = MeanDecreaseGini)) + geom_col(fill = “steelblue”) + coord_flip() + labs(title = “Random Forest: Variable Importance”, subtitle = “Mean Decrease in Gini Index”, x = NULL, y = “Importance”) + theme_minimal(base_size = 18)</p>
-</section>
-<section id="section-52" class="level1">
-<h1>—————————————————————————-</h1>
-</section>
-<section id="q21.-model-comparison" class="level1">
-<h1>Q21. Model comparison</h1>
-</section>
-<section id="section-53" class="level1">
-<h1>—————————————————————————-</h1>
-<p>results &lt;- tibble( Model = c(“Logistic Regression”, “Decision Tree”, “Random Forest”), Accuracy = c( confusionMatrix(logit_pred, test_data<span class="math inline">\(vote)\)</span>overall[“Accuracy”], confusionMatrix(tree_pred, test_data<span class="math inline">\(vote)\)</span>overall[“Accuracy”], confusionMatrix(rf_pred, test_data<span class="math inline">\(vote)\)</span>overall[“Accuracy”] ) )</p>
-<p>results %&gt;% arrange(desc(Accuracy))</p>
-</section>
-<section id="comparison-plot" class="level1">
-<h1>Comparison plot</h1>
-<p>ggplot(results, aes(x = reorder(Model, Accuracy), y = Accuracy, fill = Model)) + geom_col(width = 0.6) + geom_text(aes(label = paste0(round(Accuracy * 100, 1), “%”)), hjust = -0.1, size = 7) + coord_flip() + scale_fill_manual(values = c(“#e74c3c”, “#2980b9”, “#27ae60”)) + scale_y_continuous(limits = c(0, 1), labels = scales::percent) + labs(title = “Model Comparison: Prediction Accuracy”, x = NULL, y = “Accuracy”) + theme_minimal(base_size = 18) + theme(legend.position = “none”)</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 0. Setup: Packages and Data</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)        <span class="co"># Read Stata files</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data wrangling and visualization</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.2.0     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   4.0.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.1.0     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)       <span class="co"># Pairs plots</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)      <span class="co"># Clustering</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)   <span class="co"># Visualize clusters and PCA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Welcome to factoextra!
+Want to learn more? See two factoextra-related books at https://www.datanovia.com/en/product/practical-guide-to-principal-component-methods-in-r/</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)        <span class="co"># Decision trees</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)   <span class="co"># Plot decision trees</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest) <span class="co"># Random forest</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>randomForest 4.7-1.2
+Type rfNews() to see new features/changes/bug fixes.
+
+Attaching package: 'randomForest'
+
+The following object is masked from 'package:dplyr':
+
+    combine
+
+The following object is masked from 'package:ggplot2':
+
+    margin</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)        <span class="co"># Model training and evaluation</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice
+
+Attaching package: 'caret'
+
+The following object is masked from 'package:purrr':
+
+    lift</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)        <span class="co"># SVM and Naive Bayes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'e1071'
+
+The following object is masked from 'package:ggplot2':
+
+    element</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span> <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># PART I: EXPLORATORY DATA ANALYSIS</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Q1. Data overview</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(TEDS_2016)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1690   54</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(TEDS_2016)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "District"        "Sex"             "Age"             "Edu"            
+ [5] "Arear"           "Career"          "Career8"         "Ethnic"         
+ [9] "Party"           "PartyID"         "Tondu"           "Tondu3"         
+[13] "nI2"             "votetsai"        "green"           "votetsai_nm"    
+[17] "votetsai_all"    "Independence"    "Unification"     "sq"             
+[21] "Taiwanese"       "edu"             "female"          "whitecollar"    
+[25] "lowincome"       "income"          "income_nm"       "age"            
+[29] "KMT"             "DPP"             "npp"             "noparty"        
+[33] "pfp"             "South"           "north"           "Minnan_father"  
+[37] "Mainland_father" "Econ_worse"      "Inequality"      "inequality5"    
+[41] "econworse5"      "Govt_for_public" "pubwelf5"        "Govt_dont_care" 
+[45] "highincome"      "votekmt"         "votekmt_nm"      "Blue"           
+[49] "Green"           "No_Party"        "voteblue"        "voteblue_nm"    
+[53] "votedpp_1"       "votekmt_1"      </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(TEDS_2016)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    District         Sex             Age           Edu            Arear      
+ Min.   : 201   Min.   :1.000   Min.   :1.0   Min.   :1.000   Min.   :1.000  
+ 1st Qu.:1401   1st Qu.:1.000   1st Qu.:2.0   1st Qu.:2.000   1st Qu.:1.000  
+ Median :6406   Median :1.000   Median :3.0   Median :3.000   Median :3.000  
+ Mean   :4661   Mean   :1.486   Mean   :3.3   Mean   :3.334   Mean   :2.744  
+ 3rd Qu.:6604   3rd Qu.:2.000   3rd Qu.:5.0   3rd Qu.:5.000   3rd Qu.:4.000  
+ Max.   :6806   Max.   :2.000   Max.   :5.0   Max.   :9.000   Max.   :6.000  
+                                                                             
+     Career         Career8          Ethnic          Party      
+ Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   : 1.00  
+ 1st Qu.:1.000   1st Qu.:2.000   1st Qu.:1.000   1st Qu.: 5.00  
+ Median :2.000   Median :4.000   Median :1.000   Median : 7.00  
+ Mean   :2.683   Mean   :3.811   Mean   :1.658   Mean   :13.02  
+ 3rd Qu.:4.000   3rd Qu.:5.000   3rd Qu.:2.000   3rd Qu.:25.00  
+ Max.   :5.000   Max.   :8.000   Max.   :9.000   Max.   :26.00  
+                                                                
+    PartyID          Tondu           Tondu3           nI2       
+ Min.   :1.000   Min.   :1.000   Min.   :1.000   Min.   : 1.00  
+ 1st Qu.:2.000   1st Qu.:3.000   1st Qu.:2.000   1st Qu.: 1.00  
+ Median :2.000   Median :4.000   Median :2.000   Median : 3.00  
+ Mean   :4.522   Mean   :4.127   Mean   :2.667   Mean   :35.13  
+ 3rd Qu.:9.000   3rd Qu.:5.000   3rd Qu.:3.000   3rd Qu.:98.00  
+ Max.   :9.000   Max.   :9.000   Max.   :9.000   Max.   :98.00  
+                                                                
+    votetsai          green         votetsai_nm      votetsai_all   
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :1.0000   Median :0.0000   Median :1.0000   Median :1.0000  
+ Mean   :0.6265   Mean   :0.3781   Mean   :0.6265   Mean   :0.5478  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+ NA's   :429                       NA's   :429      NA's   :248     
+  Independence     Unification           sq           Taiwanese     
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.0000   Median :0.0000   Median :1.0000   Median :1.0000  
+ Mean   :0.2888   Mean   :0.1225   Mean   :0.5172   Mean   :0.6272  
+ 3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+                                                                    
+      edu            female        whitecollar       lowincome    
+ Min.   :1.000   Min.   :0.0000   Min.   :0.0000   Min.   :1.000  
+ 1st Qu.:2.000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:4.000  
+ Median :3.000   Median :0.0000   Median :1.0000   Median :5.000  
+ Mean   :3.301   Mean   :0.4864   Mean   :0.5373   Mean   :4.343  
+ 3rd Qu.:5.000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:5.000  
+ Max.   :5.000   Max.   :1.0000   Max.   :1.0000   Max.   :5.000  
+ NA's   :10                                                       
+     income         income_nm           age              KMT        
+ Min.   : 1.000   Min.   : 1.000   Min.   : 20.00   Min.   :0.0000  
+ 1st Qu.: 3.000   1st Qu.: 2.000   1st Qu.: 35.00   1st Qu.:0.0000  
+ Median : 5.500   Median : 5.000   Median : 49.00   Median :0.0000  
+ Mean   : 5.324   Mean   : 5.281   Mean   : 49.11   Mean   :0.2296  
+ 3rd Qu.: 7.000   3rd Qu.: 8.000   3rd Qu.: 61.00   3rd Qu.:0.0000  
+ Max.   :10.000   Max.   :10.000   Max.   :100.00   Max.   :1.0000  
+                  NA's   :330                                       
+      DPP              npp             noparty            pfp         
+ Min.   :0.0000   Min.   :0.00000   Min.   :0.0000   Min.   :0.00000  
+ 1st Qu.:0.0000   1st Qu.:0.00000   1st Qu.:0.0000   1st Qu.:0.00000  
+ Median :0.0000   Median :0.00000   Median :0.0000   Median :0.00000  
+ Mean   :0.3497   Mean   :0.02544   Mean   :0.3716   Mean   :0.01893  
+ 3rd Qu.:1.0000   3rd Qu.:0.00000   3rd Qu.:1.0000   3rd Qu.:0.00000  
+ Max.   :1.0000   Max.   :1.00000   Max.   :1.0000   Max.   :1.00000  
+                                                                      
+     South            north        Minnan_father    Mainland_father 
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.0000   Median :0.0000   Median :1.0000   Median :0.0000  
+ Mean   :0.4947   Mean   :0.4799   Mean   :0.7225   Mean   :0.1024  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.0000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+                                                                    
+   Econ_worse       Inequality      inequality5      econworse5   
+ Min.   :0.0000   Min.   :0.0000   Min.   :1.000   Min.   :1.000  
+ 1st Qu.:0.0000   1st Qu.:1.0000   1st Qu.:4.000   1st Qu.:3.000  
+ Median :1.0000   Median :1.0000   Median :5.000   Median :4.000  
+ Mean   :0.5544   Mean   :0.9355   Mean   :4.495   Mean   :3.644  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:5.000   3rd Qu.:4.000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :5.000   Max.   :5.000  
+                                                                  
+ Govt_for_public     pubwelf5     Govt_dont_care     highincome    
+ Min.   :0.0000   Min.   :1.000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.0000   Median :3.000   Median :0.0000   Median :1.0000  
+ Mean   :0.4249   Mean   :2.877   Mean   :0.4988   Mean   :0.5765  
+ 3rd Qu.:1.0000   3rd Qu.:4.000   3rd Qu.:1.0000   3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :5.000   Max.   :1.0000   Max.   :1.0000  
+                                                   NA's   :330     
+    votekmt         votekmt_nm          Blue       Green      No_Party
+ Min.   :0.0000   Min.   :0.0000   Min.   :0   Min.   :0   Min.   :0  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0   1st Qu.:0   1st Qu.:0  
+ Median :0.0000   Median :0.0000   Median :0   Median :0   Median :0  
+ Mean   :0.2053   Mean   :0.2752   Mean   :0   Mean   :0   Mean   :0  
+ 3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:0   3rd Qu.:0   3rd Qu.:0  
+ Max.   :1.0000   Max.   :1.0000   Max.   :0   Max.   :0   Max.   :0  
+                  NA's   :429                                         
+    voteblue       voteblue_nm       votedpp_1        votekmt_1     
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.0000   Median :0.0000   Median :1.0000   Median :0.0000  
+ Mean   :0.2787   Mean   :0.3735   Mean   :0.5256   Mean   :0.2309  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.0000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+                  NA's   :429      NA's   :187      NA's   :187     </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q2. Missing data assessment</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.)))) <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"variable"</span>, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"n_missing"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_missing <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n_missing))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   variable     n_missing
+   &lt;chr&gt;            &lt;int&gt;
+ 1 votetsai           429
+ 2 votetsai_nm        429
+ 3 votekmt_nm         429
+ 4 voteblue_nm        429
+ 5 income_nm          330
+ 6 highincome         330
+ 7 votetsai_all       248
+ 8 votedpp_1          187
+ 9 votekmt_1          187
+10 edu                 10</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize missingness</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.)))) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"variable"</span>, </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"n_missing"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n_missing <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(variable, n_missing), <span class="at">y =</span> n_missing)) <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Missing Values by Variable"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Count of Missing Values"</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q3. Variable recoding</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>teds <span class="ot">&lt;-</span> TEDS_2016 <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">vote =</span> <span class="fu">factor</span>(votetsai, </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Other"</span>, <span class="st">"Tsai"</span>)),</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">gender =</span> <span class="fu">factor</span>(female, </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>)),</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Tondu =</span> <span class="fu">as.factor</span>(Tondu),</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Party =</span> <span class="fu">as.factor</span>(Party)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(vote, gender, age, edu, income, </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>         Taiwanese, Econ_worse, Tondu, Party, DPP) <span class="sc">%&gt;%</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(teds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 1,257
+Columns: 10
+$ vote       &lt;fct&gt; Tsai, Other, Tsai, Tsai, Tsai, Tsai, Tsai, Tsai, Other, Oth…
+$ gender     &lt;fct&gt; Female, Male, Female, Male, Female, Female, Male, Female, F…
+$ age        &lt;dbl&gt; 39, 63, 64, 75, 54, 64, 66, 25, 41, 57, 83, 43, 44, 34, 28,…
+$ edu        &lt;dbl&gt; 5, 5, 2, 1, 5, 1, 1, 2, 5, 5, 1, 5, 5, 3, 3, 3, 3, 1, 5, 3,…
+$ income     &lt;dbl&gt; 7.0, 8.0, 9.0, 1.0, 10.0, 2.0, 3.0, 5.5, 9.0, 1.0, 5.5, 5.0…
+$ Taiwanese  &lt;dbl&gt; 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1,…
+$ Econ_worse &lt;dbl&gt; 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0,…
+$ Tondu      &lt;fct&gt; 5, 3, 4, 9, 6, 9, 5, 5, 5, 4, 9, 3, 5, 3, 3, 4, 1, 1, 4, 3,…
+$ Party      &lt;fct&gt; 25, 3, 6, 25, 24, 25, 6, 5, 3, 3, 25, 23, 7, 3, 25, 2, 10, …
+$ DPP        &lt;dbl&gt; 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,…</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q4. Vote choice distribution</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(teds, <span class="fu">aes</span>(<span class="at">x =</span> vote, <span class="at">fill =</span> vote)) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Other"</span> <span class="ot">=</span> <span class="st">"#2980b9"</span>, <span class="st">"Tsai"</span> <span class="ot">=</span> <span class="st">"#27ae60"</span>)) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Vote Choice Distribution"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"TEDS 2016: Tsai Ing-wen vs. Other Candidates"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Vote Choice"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q5. Age distribution</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(teds, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age Distribution of Respondents"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Age"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q6. Vote by gender</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(teds, <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">fill =</span> vote)) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Other"</span> <span class="ot">=</span> <span class="st">"#2980b9"</span>, <span class="st">"Tsai"</span> <span class="ot">=</span> <span class="st">"#27ae60"</span>)) <span class="sc">+</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Vote Choice by Gender"</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Gender"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Vote"</span>) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q7. Age by vote choice</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(teds, <span class="fu">aes</span>(<span class="at">x =</span> vote, <span class="at">y =</span> age, <span class="at">fill =</span> vote)) <span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Other"</span> <span class="ot">=</span> <span class="st">"#2980b9"</span>, <span class="st">"Tsai"</span> <span class="ot">=</span> <span class="st">"#27ae60"</span>)) <span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Age Distribution by Vote Choice"</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Vote Choice"</span>, <span class="at">y =</span> <span class="st">"Age"</span>) <span class="sc">+</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>) <span class="sc">+</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q8. Correlation matrix</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>teds <span class="sc">%&gt;%</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(age, edu, income, Taiwanese, Econ_worse, DPP) <span class="sc">%&gt;%</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">"complete.obs"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"var1"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>var1, <span class="at">names_to =</span> <span class="st">"var2"</span>, <span class="at">values_to =</span> <span class="st">"cor"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> var1, <span class="at">y =</span> var2, <span class="at">fill =</span> cor)) <span class="sc">+</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(cor, <span class="dv">2</span>)), <span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"#e74c3c"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#2980b9"</span>,</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Correlation Matrix of Numeric Variables"</span>,</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>) <span class="sc">+</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q9. Pairs plot</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>teds <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(age, edu, income, Taiwanese, Econ_worse, vote) <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>(<span class="fu">aes</span>(<span class="at">color =</span> vote, <span class="at">alpha =</span> <span class="fl">0.5</span>),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">upper =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"cor"</span>, <span class="at">size =</span> <span class="dv">4</span>)),</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">lower =</span> <span class="fu">list</span>(<span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"points"</span>, <span class="at">size =</span> <span class="fl">0.5</span>))) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Other"</span> <span class="ot">=</span> <span class="st">"#2980b9"</span>, <span class="st">"Tsai"</span> <span class="ot">=</span> <span class="st">"#27ae60"</span>)) <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Other"</span> <span class="ot">=</span> <span class="st">"#2980b9"</span>, <span class="st">"Tsai"</span> <span class="ot">=</span> <span class="st">"#27ae60"</span>)) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.
+No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.
+No shared levels found between `names(values)` of the manual scale and the
+data's fill values.
+No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's fill values.
+No shared levels found between `names(values)` of the manual scale and the
+data's fill values.
+No shared levels found between `names(values)` of the manual scale and the
+data's fill values.
+No shared levels found between `names(values)` of the manual scale and the
+data's fill values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: No shared levels found between `names(values)` of the manual scale and the
+data's colour values.
+No shared levels found between `names(values)` of the manual scale and the
+data's colour values.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="co"># PART II: UNSUPERVISED LEARNING</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for clustering</span></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>teds_numeric <span class="ot">&lt;-</span> teds <span class="sc">%&gt;%</span></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(age, edu, income, Taiwanese, Econ_worse, DPP) <span class="sc">%&gt;%</span></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(teds_numeric)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         age        edu     income Taiwanese Econ_worse        DPP
+1 -0.6442434  1.1180557  0.5890616 -1.352636 -1.1612317 -0.8507077
+2  0.7997042  1.1180557  0.9453043 -1.352636  0.8604695 -0.8507077
+3  0.8598687 -0.8791912  1.3015470  0.738709  0.8604695  1.1745567
+4  1.5216780 -1.5449401 -1.5483945 -1.352636  0.8604695 -0.8507077
+5  0.2582239  1.1180557  1.6577897  0.738709  0.8604695 -0.8507077
+6  0.8598687 -1.5449401 -1.1921518  0.738709  0.8604695 -0.8507077</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q10. Choosing k: Elbow method</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(teds_numeric, kmeans, <span class="at">method =</span> <span class="st">"wss"</span>, <span class="at">k.max =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Elbow Method: Optimal Number of Clusters"</span>) <span class="sc">+</span></span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Silhouette method</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_nbclust</span>(teds_numeric, kmeans, <span class="at">method =</span> <span class="st">"silhouette"</span>, <span class="at">k.max =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Silhouette Method: Optimal Number of Clusters"</span>) <span class="sc">+</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-9.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q11. K-Means clustering</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6323</span>)</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>km_result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(teds_numeric, <span class="at">centers =</span> <span class="dv">3</span>, <span class="at">nstart =</span> <span class="dv">25</span>)</span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(km_result<span class="sc">$</span>cluster)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  1   2   3 
+400 442 415 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(km_result<span class="sc">$</span>centers, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    age   edu income Taiwanese Econ_worse   DPP
+1  0.11  0.17   0.15     -1.35      -0.26 -0.62
+2 -0.80  0.75   0.37      0.69      -0.05  0.24
+3  0.74 -0.96  -0.54      0.57       0.31  0.35</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize clusters</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(km_result, <span class="at">data =</span> teds_numeric,</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">geom =</span> <span class="st">"point"</span>, </span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">ellipse.type =</span> <span class="st">"convex"</span>,</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#e74c3c"</span>, <span class="st">"#2980b9"</span>, <span class="st">"#27ae60"</span>),</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">ggtheme =</span> <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)) <span class="sc">+</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"K-Means Clustering of TEDS 2016 Voters (k = 3)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-10.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q12. Cluster profiling</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>teds<span class="sc">$</span>cluster <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(km_result<span class="sc">$</span>cluster)</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>teds <span class="sc">%&gt;%</span></span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span></span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">round</span>(<span class="fu">mean</span>(age), <span class="dv">1</span>),</span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_edu =</span> <span class="fu">round</span>(<span class="fu">mean</span>(edu), <span class="dv">1</span>),</span>
+<span id="cb76-13"><a href="#cb76-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_income =</span> <span class="fu">round</span>(<span class="fu">mean</span>(income), <span class="dv">1</span>),</span>
+<span id="cb76-14"><a href="#cb76-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_Taiwanese =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Taiwanese) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb76-15"><a href="#cb76-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_Econ_worse =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Econ_worse) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>),</span>
+<span id="cb76-16"><a href="#cb76-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_DPP =</span> <span class="fu">round</span>(<span class="fu">mean</span>(DPP), <span class="dv">2</span>),</span>
+<span id="cb76-17"><a href="#cb76-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_Tsai =</span> <span class="fu">round</span>(<span class="fu">mean</span>(vote <span class="sc">==</span> <span class="st">"Tsai"</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>)</span>
+<span id="cb76-18"><a href="#cb76-18" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 9
+  cluster     n mean_age mean_edu mean_income pct_Taiwanese pct_Econ_worse
+  &lt;fct&gt;   &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;
+1 1         400     51.6      3.6         5.8           0             44.5
+2 2         442     36.4      4.4         6.4          97.5           54.8
+3 3         415     62        1.9         3.8          92             72.8
+# ℹ 2 more variables: mean_DPP &lt;dbl&gt;, pct_Tsai &lt;dbl&gt;</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q13. Clusters vs. vote choice</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(teds, <span class="fu">aes</span>(<span class="at">x =</span> cluster, <span class="at">fill =</span> vote)) <span class="sc">+</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Other"</span> <span class="ot">=</span> <span class="st">"#2980b9"</span>, <span class="st">"Tsai"</span> <span class="ot">=</span> <span class="st">"#27ae60"</span>)) <span class="sc">+</span></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Vote Choice Distribution by Cluster"</span>,</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Cluster"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Vote"</span>) <span class="sc">+</span></span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-11.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q14. Principal Component Analysis</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>pca_result <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(teds_numeric, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca_result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          PC1    PC2    PC3    PC4    PC5    PC6
+Standard deviation     1.3621 1.2153 0.9492 0.9141 0.7843 0.5623
+Proportion of Variance 0.3092 0.2461 0.1502 0.1393 0.1025 0.0527
+Cumulative Proportion  0.3092 0.5554 0.7055 0.8448 0.9473 1.0000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scree plot</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_eig</span>(pca_result, <span class="at">addlabels =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Scree Plot: Variance Explained by Each PC"</span>) <span class="sc">+</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-12.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q15. PCA variable contributions</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_var</span>(pca_result, </span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.var =</span> <span class="st">"contrib"</span>,</span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">gradient.cols =</span> <span class="fu">c</span>(<span class="st">"#00AFBB"</span>, <span class="st">"#E7B800"</span>, <span class="st">"#FC4E07"</span>),</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">repel =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PCA: Variable Contributions"</span>) <span class="sc">+</span></span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-13.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PCA individuals by vote</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_ind</span>(pca_result,</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.ind =</span> teds<span class="sc">$</span>vote,</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#2980b9"</span>, <span class="st">"#27ae60"</span>),</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">addEllipses =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">legend.title =</span> <span class="st">"Vote"</span>) <span class="sc">+</span></span>
+<span id="cb83-8"><a href="#cb83-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"PCA: Voters Projected onto First Two PCs"</span>) <span class="sc">+</span></span>
+<span id="cb83-9"><a href="#cb83-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Ignoring unknown labels:
+• linetype : "Vote"</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-14.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="co"># PART III: SUPERVISED LEARNING</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Q16. Train-test split</span></span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6323</span>)</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(teds<span class="sc">$</span>vote, <span class="at">p =</span> <span class="fl">0.7</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> teds[train_index, ] <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>cluster)</span>
+<span id="cb85-13"><a href="#cb85-13" aria-hidden="true" tabindex="-1"></a>test_data  <span class="ot">&lt;-</span> teds[<span class="sc">-</span>train_index, ] <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>cluster)</span>
+<span id="cb85-14"><a href="#cb85-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training set:"</span>, <span class="fu">nrow</span>(train_data), <span class="st">"observations</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Training set: 880 observations</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Test set:"</span>, <span class="fu">nrow</span>(test_data), <span class="st">"observations</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Test set: 377 observations</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(train_data<span class="sc">$</span>vote))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Other      Tsai 
+0.3738636 0.6261364 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q17. Logistic regression</span></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>logit_model <span class="ot">&lt;-</span> <span class="fu">glm</span>(vote <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> edu <span class="sc">+</span> income <span class="sc">+</span> </span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>                     Taiwanese <span class="sc">+</span> Econ_worse <span class="sc">+</span> DPP,</span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> train_data, </span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> binomial)</span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(logit_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = vote ~ age + gender + edu + income + Taiwanese + 
+    Econ_worse + DPP, family = binomial, data = train_data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   0.361867   0.642494   0.563  0.57328    
+age          -0.016301   0.007529  -2.165  0.03038 *  
+genderFemale -0.349449   0.198576  -1.760  0.07845 .  
+edu          -0.236898   0.089984  -2.633  0.00847 ** 
+income       -0.017889   0.036531  -0.490  0.62435    
+Taiwanese     1.483033   0.200581   7.394 1.43e-13 ***
+Econ_worse    0.340277   0.193553   1.758  0.07874 .  
+DPP           3.620753   0.315087  11.491  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1163.32  on 879  degrees of freedom
+Residual deviance:  682.87  on 872  degrees of freedom
+AIC: 698.87
+
+Number of Fisher Scoring iterations: 6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>logit_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit_model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>logit_pred <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(logit_probs <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"Tsai"</span>, <span class="st">"Other"</span>)</span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>logit_pred <span class="ot">&lt;-</span> <span class="fu">factor</span>(logit_pred, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Other"</span>, <span class="st">"Tsai"</span>))</span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(logit_pred, test_data<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Other Tsai
+     Other   104   40
+     Tsai     37  196
+                                          
+               Accuracy : 0.7958          
+                 95% CI : (0.7515, 0.8353)
+    No Information Rate : 0.626           
+    P-Value [Acc &gt; NIR] : 8.186e-13       
+                                          
+                  Kappa : 0.5657          
+                                          
+ Mcnemar's Test P-Value : 0.8197          
+                                          
+            Sensitivity : 0.7376          
+            Specificity : 0.8305          
+         Pos Pred Value : 0.7222          
+         Neg Pred Value : 0.8412          
+             Prevalence : 0.3740          
+         Detection Rate : 0.2759          
+   Detection Prevalence : 0.3820          
+      Balanced Accuracy : 0.7840          
+                                          
+       'Positive' Class : Other           
+                                          </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q18. Decision tree</span></span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>tree_model <span class="ot">&lt;-</span> <span class="fu">rpart</span>(vote <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> edu <span class="sc">+</span> income <span class="sc">+</span> </span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>                      Taiwanese <span class="sc">+</span> Econ_worse <span class="sc">+</span> DPP,</span>
+<span id="cb95-7"><a href="#cb95-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> train_data,</span>
+<span id="cb95-8"><a href="#cb95-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">"class"</span>)</span>
+<span id="cb95-9"><a href="#cb95-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-10"><a href="#cb95-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(tree_model, </span>
+<span id="cb95-11"><a href="#cb95-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">type =</span> <span class="dv">4</span>, </span>
+<span id="cb95-12"><a href="#cb95-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">extra =</span> <span class="dv">104</span>,</span>
+<span id="cb95-13"><a href="#cb95-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">main =</span> <span class="st">"Decision Tree: Predicting Vote Choice"</span>,</span>
+<span id="cb95-14"><a href="#cb95-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">box.palette =</span> <span class="st">"BuGn"</span>,</span>
+<span id="cb95-15"><a href="#cb95-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">cex =</span> <span class="fl">1.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-15.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>tree_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(tree_model, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(tree_pred, test_data<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Other Tsai
+     Other   118   54
+     Tsai     23  182
+                                          
+               Accuracy : 0.7958          
+                 95% CI : (0.7515, 0.8353)
+    No Information Rate : 0.626           
+    P-Value [Acc &gt; NIR] : 8.186e-13       
+                                          
+                  Kappa : 0.5823          
+                                          
+ Mcnemar's Test P-Value : 0.0006289       
+                                          
+            Sensitivity : 0.8369          
+            Specificity : 0.7712          
+         Pos Pred Value : 0.6860          
+         Neg Pred Value : 0.8878          
+             Prevalence : 0.3740          
+         Detection Rate : 0.3130          
+   Detection Prevalence : 0.4562          
+      Balanced Accuracy : 0.8040          
+                                          
+       'Positive' Class : Other           
+                                          </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q19. Random forest</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">6323</span>)</span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(vote <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> edu <span class="sc">+</span> income <span class="sc">+</span> </span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a>                           Taiwanese <span class="sc">+</span> Econ_worse <span class="sc">+</span> DPP,</span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> train_data,</span>
+<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ntree =</span> <span class="dv">500</span>,</span>
+<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb98-12"><a href="#cb98-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-13"><a href="#cb98-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rf_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+ randomForest(formula = vote ~ age + gender + edu + income + Taiwanese +      Econ_worse + DPP, data = train_data, ntree = 500, importance = TRUE) 
+               Type of random forest: classification
+                     Number of trees: 500
+No. of variables tried at each split: 2
+
+        OOB estimate of  error rate: 19.77%
+Confusion matrix:
+      Other Tsai class.error
+Other   245   84   0.2553191
+Tsai     90  461   0.1633394</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluation</span></span>
+<span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>rf_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> test_data)</span>
+<span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(rf_pred, test_data<span class="sc">$</span>vote)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction Other Tsai
+     Other   111   40
+     Tsai     30  196
+                                          
+               Accuracy : 0.8143          
+                 95% CI : (0.7713, 0.8523)
+    No Information Rate : 0.626           
+    P-Value [Acc &gt; NIR] : 1.408e-15       
+                                          
+                  Kappa : 0.609           
+                                          
+ Mcnemar's Test P-Value : 0.2821          
+                                          
+            Sensitivity : 0.7872          
+            Specificity : 0.8305          
+         Pos Pred Value : 0.7351          
+         Neg Pred Value : 0.8673          
+             Prevalence : 0.3740          
+         Detection Rate : 0.2944          
+   Detection Prevalence : 0.4005          
+      Balanced Accuracy : 0.8089          
+                                          
+       'Positive' Class : Other           
+                                          </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q20. Variable importance</span></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>importance_df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">importance</span>(rf_model)) <span class="sc">%&gt;%</span></span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">"variable"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(MeanDecreaseGini))</span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(importance_df, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(variable, MeanDecreaseGini), </span>
+<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y =</span> MeanDecreaseGini)) <span class="sc">+</span></span>
+<span id="cb102-11"><a href="#cb102-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb102-12"><a href="#cb102-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb102-13"><a href="#cb102-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Random Forest: Variable Importance"</span>,</span>
+<span id="cb102-14"><a href="#cb102-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Mean Decrease in Gini Index"</span>,</span>
+<span id="cb102-15"><a href="#cb102-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Importance"</span>) <span class="sc">+</span></span>
+<span id="cb102-16"><a href="#cb102-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-16.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Q21. Model comparison</span></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ----------------------------------------------------------------------------</span></span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model =</span> <span class="fu">c</span>(<span class="st">"Logistic Regression"</span>, <span class="st">"Decision Tree"</span>, <span class="st">"Random Forest"</span>),</span>
+<span id="cb103-7"><a href="#cb103-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Accuracy =</span> <span class="fu">c</span>(</span>
+<span id="cb103-8"><a href="#cb103-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">confusionMatrix</span>(logit_pred, test_data<span class="sc">$</span>vote)<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb103-9"><a href="#cb103-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">confusionMatrix</span>(tree_pred, test_data<span class="sc">$</span>vote)<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>],</span>
+<span id="cb103-10"><a href="#cb103-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">confusionMatrix</span>(rf_pred, test_data<span class="sc">$</span>vote)<span class="sc">$</span>overall[<span class="st">"Accuracy"</span>]</span>
+<span id="cb103-11"><a href="#cb103-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb103-12"><a href="#cb103-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb103-13"><a href="#cb103-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-14"><a href="#cb103-14" aria-hidden="true" tabindex="-1"></a>results <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(Accuracy))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  Model               Accuracy
+  &lt;chr&gt;                  &lt;dbl&gt;
+1 Random Forest          0.814
+2 Logistic Regression    0.796
+3 Decision Tree          0.796</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparison plot</span></span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Model, Accuracy), <span class="at">y =</span> Accuracy, <span class="at">fill =</span> Model)) <span class="sc">+</span></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">round</span>(Accuracy <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">"%"</span>)), </span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#e74c3c"</span>, <span class="st">"#2980b9"</span>, <span class="st">"#27ae60"</span>)) <span class="sc">+</span></span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> scales<span class="sc">::</span>percent) <span class="sc">+</span></span>
+<span id="cb105-9"><a href="#cb105-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Model Comparison: Prediction Accuracy"</span>,</span>
+<span id="cb105-10"><a href="#cb105-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Accuracy"</span>) <span class="sc">+</span></span>
+<span id="cb105-11"><a href="#cb105-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">18</span>) <span class="sc">+</span></span>
+<span id="cb105-12"><a href="#cb105-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lab03_files/figure-html/unnamed-chunk-1-17.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
