@@ -6,7 +6,7 @@ format: html
 
 **In addition to the analysis presented in this document, the corresponding lab work (Lab_ML01) has been rendered and uploaded to the course website under the “Labs” section as Lab 3. The lab files include the full code, output, and visualizations used in the exploratory data analysis**
 
-## 3.Load Data:
+## 3. Load Data:
 
 
 ```{r}
@@ -19,6 +19,7 @@ TEDS_2016 <- read_stata("https://github.com/datageneration/home/blob/master/Data
 
 ```{r}
 model <- lm(Tondu ~ age + edu + income, data = TEDS_2016)
+summary(model)
 ```
 
 ## Function: regplot:
@@ -54,3 +55,4 @@ The dependent variable (Tondu) has multiple categories (more than two categories
 ## 7. How can prediction be improved?
 
 To improve prediction, a model suitable for categorical outcomes should be used. For example, ordinal logistic regression or multinomial logistic regression would be more appropriate because they can handle multiple categories in the dependent variable without assuming equal distance between them.
+

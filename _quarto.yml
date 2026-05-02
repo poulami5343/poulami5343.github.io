@@ -17,6 +17,7 @@ website:
             href: epps6323assignment2.qmd
           - text: Assignment 3
             href: epps6323assignment3.qmd
+          
       - text: Labs
         menu:
           - text: Lab 1

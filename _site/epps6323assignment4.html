@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Poulami Sarker">
+
+<title>Assignment 4: Text Analytics using quanteda – Poulami Sarker</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-5348f60334dd04cbc36623d8010fff4a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Poulami Sarker</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-epps-6323" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">EPPS 6323</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-epps-6323">    
+        <li>
+    <a class="dropdown-item" href="./epps6323assignment1.html">
+ <span class="dropdown-text">Assignment 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./epps6323assignment2.html">
+ <span class="dropdown-text">Assignment 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./epps6323assignment3.html">
+ <span class="dropdown-text">Assignment 3</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-labs" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Labs</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-labs">    
+        <li>
+    <a class="dropdown-item" href="./Labs/Lab01.html">
+ <span class="dropdown-text">Lab 1</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Labs/Lab02.html">
+ <span class="dropdown-text">Lab 2</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./Labs/Lab03.html">
+ <span class="dropdown-text">Lab 3</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./weeklyreflectionepps6323.html"> 
+<span class="menu-text">Reflections</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#part-2a-presidential-speeches" id="toc-part-2a-presidential-speeches" class="nav-link" data-scroll-target="#part-2a-presidential-speeches">Part 2(a): Presidential Speeches</a></li>
+  <li><a href="#part-2a-i-any-similarities-and-differences-over-time-and-among-presidents" id="toc-part-2a-i-any-similarities-and-differences-over-time-and-among-presidents" class="nav-link" data-scroll-target="#part-2a-i-any-similarities-and-differences-over-time-and-among-presidents">Part 2a (i): “Any similarities and differences over time and among presidents?”</a>
+  <ul class="collapse">
+  <li><a href="#similarities" id="toc-similarities" class="nav-link" data-scroll-target="#similarities">Similarities</a></li>
+  <li><a href="#differences-over-time" id="toc-differences-over-time" class="nav-link" data-scroll-target="#differences-over-time">Differences over time</a></li>
+  <li><a href="#differences-among-presidents" id="toc-differences-among-presidents" class="nav-link" data-scroll-target="#differences-among-presidents">Differences among presidents</a></li>
+  </ul></li>
+  <li><a href="#part-2b-u.s.-department-of-defense-reports" id="toc-part-2b-u.s.-department-of-defense-reports" class="nav-link" data-scroll-target="#part-2b-u.s.-department-of-defense-reports">Part 2(b): U.S. Department of Defense Reports</a></li>
+  <li><a href="#part-3-wordfish-analysis" id="toc-part-3-wordfish-analysis" class="nav-link" data-scroll-target="#part-3-wordfish-analysis">Part 3: Wordfish Analysis</a></li>
+  <li><a href="#part-4-how-to-compare-positions" id="toc-part-4-how-to-compare-positions" class="nav-link" data-scroll-target="#part-4-how-to-compare-positions">Part 4: How to compare positions</a></li>
+  <li><a href="#part-5-hackathon-analysis" id="toc-part-5-hackathon-analysis" class="nav-link" data-scroll-target="#part-5-hackathon-analysis">Part 5: <strong>Hackathon Analysis</strong></a>
+  <ul class="collapse">
+  <li><a href="#apsa-ejobs-hackathon---political-science-job-market-text-analysis" id="toc-apsa-ejobs-hackathon---political-science-job-market-text-analysis" class="nav-link" data-scroll-target="#apsa-ejobs-hackathon---political-science-job-market-text-analysis">APSA eJobs Hackathon - Political Science Job Market Text Analysis</a></li>
+  <li><a href="#script-organization-question-driven" id="toc-script-organization-question-driven" class="nav-link" data-scroll-target="#script-organization-question-driven">Script organization (question-driven)</a></li>
+  <li><a href="#output-image-numbering" id="toc-output-image-numbering" class="nav-link" data-scroll-target="#output-image-numbering">Output image numbering</a></li>
+  <li><a href="#research-questions" id="toc-research-questions" class="nav-link" data-scroll-target="#research-questions">Research Questions</a></li>
+  </ul></li>
+  <li><a href="#read-pdfs-corpus" id="toc-read-pdfs-corpus" class="nav-link" data-scroll-target="#read-pdfs-corpus">2. Read PDFs + corpus</a></li>
+  <li><a href="#stopwords" id="toc-stopwords" class="nav-link" data-scroll-target="#stopwords">3. Stopwords</a></li>
+  <li><a href="#tokens-and-dfm" id="toc-tokens-and-dfm" class="nav-link" data-scroll-target="#tokens-and-dfm">3. Tokens and DFM</a></li>
+  <li><a href="#overall-top-30-most-frequent-terms" id="toc-overall-top-30-most-frequent-terms" class="nav-link" data-scroll-target="#overall-top-30-most-frequent-terms">4. Overall top 30 most frequent terms</a></li>
+  <li><a href="#top-terms-by-year" id="toc-top-terms-by-year" class="nav-link" data-scroll-target="#top-terms-by-year">5. Top terms by year</a></li>
+  <li><a href="#word-cloud" id="toc-word-cloud" class="nav-link" data-scroll-target="#word-cloud">6. Word cloud</a></li>
+  <li><a href="#relative-frequency-trend-research-vs-teaching" id="toc-relative-frequency-trend-research-vs-teaching" class="nav-link" data-scroll-target="#relative-frequency-trend-research-vs-teaching">7. Relative frequency trend: research vs teaching</a></li>
+  <li><a href="#dictionary-based-theme-distribution" id="toc-dictionary-based-theme-distribution" class="nav-link" data-scroll-target="#dictionary-based-theme-distribution">8. Dictionary-based theme distribution</a></li>
+  <li><a href="#theme-trends-over-time" id="toc-theme-trends-over-time" class="nav-link" data-scroll-target="#theme-trends-over-time">9. Theme trends over time</a></li>
+  <li><a href="#kwic-on-raw-tokens-for-multi-word-phrases" id="toc-kwic-on-raw-tokens-for-multi-word-phrases" class="nav-link" data-scroll-target="#kwic-on-raw-tokens-for-multi-word-phrases">10. KWIC on raw tokens for multi-word phrases</a>
+  <ul class="collapse">
+  <li><a href="#phrase-bar-chart" id="toc-phrase-bar-chart" class="nav-link" data-scroll-target="#phrase-bar-chart">Phrase bar chart</a></li>
+  </ul></li>
+  <li><a href="#emerging-phrase-trends-over-time" id="toc-emerging-phrase-trends-over-time" class="nav-link" data-scroll-target="#emerging-phrase-trends-over-time">11. Emerging phrase trends over time</a></li>
+  <li><a href="#co-occurrence-network" id="toc-co-occurrence-network" class="nav-link" data-scroll-target="#co-occurrence-network">12. Co-occurrence network</a></li>
+  <li><a href="#wordfish-by-year" id="toc-wordfish-by-year" class="nav-link" data-scroll-target="#wordfish-by-year">13. Wordfish by year</a></li>
+  <li><a href="#wordfish-feature-positions" id="toc-wordfish-feature-positions" class="nav-link" data-scroll-target="#wordfish-feature-positions">14. Wordfish feature positions</a></li>
+  <li><a href="#keyness-recent-vs-early" id="toc-keyness-recent-vs-early" class="nav-link" data-scroll-target="#keyness-recent-vs-early">15. Keyness: recent vs early</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Assignment 4: Text Analytics using quanteda</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Poulami Sarker </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This assignment uses quanteda to analyze text data including U.S. presidential inaugural speeches, Department of Defense reports, and APSA job postings.</p>
+</section>
+<section id="part-2a-presidential-speeches" class="level2">
+<h2 class="anchored" data-anchor-id="part-2a-presidential-speeches">Part 2(a): Presidential Speeches</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textmodels)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readtext)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Collecting Speeches:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"data_corpus_inaugural"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>corp_pres <span class="ot">&lt;-</span> <span class="fu">corpus</span>(data_corpus_inaugural)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(corp_pres)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Corpus consisting of 60 documents, showing 60 documents:
+
+            Text Types Tokens Sentences Year  President       FirstName
+ 1789-Washington   625   1537        23 1789 Washington          George
+ 1793-Washington    96    147         4 1793 Washington          George
+      1797-Adams   826   2577        37 1797      Adams            John
+  1801-Jefferson   717   1923        41 1801  Jefferson          Thomas
+  1805-Jefferson   804   2380        45 1805  Jefferson          Thomas
+    1809-Madison   535   1261        21 1809    Madison           James
+    1813-Madison   541   1302        33 1813    Madison           James
+     1817-Monroe  1040   3677       121 1817     Monroe           James
+     1821-Monroe  1259   4886       131 1821     Monroe           James
+      1825-Adams  1003   3147        74 1825      Adams     John Quincy
+    1829-Jackson   517   1208        25 1829    Jackson          Andrew
+    1833-Jackson   499   1267        29 1833    Jackson          Andrew
+   1837-VanBuren  1315   4158        95 1837  Van Buren          Martin
+   1841-Harrison  1896   9125       210 1841   Harrison   William Henry
+       1845-Polk  1334   5186       153 1845       Polk      James Knox
+     1849-Taylor   496   1178        22 1849     Taylor         Zachary
+     1853-Pierce  1165   3636       104 1853     Pierce        Franklin
+   1857-Buchanan   945   3083        89 1857   Buchanan           James
+    1861-Lincoln  1075   3999       135 1861    Lincoln         Abraham
+    1865-Lincoln   360    775        26 1865    Lincoln         Abraham
+      1869-Grant   485   1229        40 1869      Grant      Ulysses S.
+      1873-Grant   552   1472        43 1873      Grant      Ulysses S.
+      1877-Hayes   831   2707        59 1877      Hayes   Rutherford B.
+   1881-Garfield  1021   3209       111 1881   Garfield        James A.
+  1885-Cleveland   676   1816        44 1885  Cleveland          Grover
+   1889-Harrison  1352   4721       157 1889   Harrison        Benjamin
+  1893-Cleveland   821   2125        58 1893  Cleveland          Grover
+   1897-McKinley  1232   4353       130 1897   McKinley         William
+   1901-McKinley   854   2437       100 1901   McKinley         William
+  1905-Roosevelt   404   1079        33 1905  Roosevelt        Theodore
+       1909-Taft  1437   5821       158 1909       Taft  William Howard
+     1913-Wilson   658   1882        68 1913     Wilson         Woodrow
+     1917-Wilson   549   1652        59 1917     Wilson         Woodrow
+    1921-Harding  1169   3719       148 1921    Harding       Warren G.
+   1925-Coolidge  1220   4440       196 1925   Coolidge          Calvin
+     1929-Hoover  1090   3860       158 1929     Hoover         Herbert
+  1933-Roosevelt   743   2057        85 1933  Roosevelt     Franklin D.
+  1937-Roosevelt   725   1989        96 1937  Roosevelt     Franklin D.
+  1941-Roosevelt   526   1519        68 1941  Roosevelt     Franklin D.
+  1945-Roosevelt   275    633        27 1945  Roosevelt     Franklin D.
+     1949-Truman   781   2504       116 1949     Truman        Harry S.
+ 1953-Eisenhower   900   2743       119 1953 Eisenhower       Dwight D.
+ 1957-Eisenhower   621   1907        92 1957 Eisenhower       Dwight D.
+    1961-Kennedy   566   1541        52 1961    Kennedy         John F.
+    1965-Johnson   568   1710        93 1965    Johnson   Lyndon Baines
+      1969-Nixon   743   2416       103 1969      Nixon Richard Milhous
+      1973-Nixon   544   1995        68 1973      Nixon Richard Milhous
+     1977-Carter   527   1370        52 1977     Carter           Jimmy
+     1981-Reagan   902   2781       129 1981     Reagan          Ronald
+     1985-Reagan   925   2909       123 1985     Reagan          Ronald
+       1989-Bush   795   2674       141 1989       Bush          George
+    1993-Clinton   642   1833        81 1993    Clinton            Bill
+    1997-Clinton   773   2436       111 1997    Clinton            Bill
+       2001-Bush   621   1806        97 2001       Bush       George W.
+       2005-Bush   772   2312        99 2005       Bush       George W.
+      2009-Obama   938   2689       110 2009      Obama          Barack
+      2013-Obama   814   2317        88 2013      Obama          Barack
+      2017-Trump   582   1660        88 2017      Trump       Donald J.
+      2021-Biden   812   2766       216 2021      Biden       Joseph R.
+      2025-Trump  1000   3347       177 2025      Trump       Donald J.
+                 Party
+                  none
+                  none
+            Federalist
+ Democratic-Republican
+ Democratic-Republican
+ Democratic-Republican
+ Democratic-Republican
+ Democratic-Republican
+ Democratic-Republican
+ Democratic-Republican
+            Democratic
+            Democratic
+            Democratic
+                  Whig
+                  Whig
+                  Whig
+            Democratic
+            Democratic
+            Republican
+            Republican
+            Republican
+            Republican
+            Republican
+            Republican
+            Democratic
+            Republican
+            Democratic
+            Republican
+            Republican
+            Republican
+            Republican
+            Democratic
+            Democratic
+            Republican
+            Republican
+            Republican
+            Democratic
+            Democratic
+            Democratic
+            Democratic
+            Democratic
+            Republican
+            Republican
+            Democratic
+            Democratic
+            Republican
+            Republican
+            Democratic
+            Republican
+            Republican
+            Republican
+            Democratic
+            Democratic
+            Republican
+            Republican
+            Democratic
+            Democratic
+            Republican
+            Democratic
+            Republican</code></pre>
+</div>
+</div>
+<p><strong>Cleaning and Counting the Texts:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>toks_pres <span class="ot">&lt;-</span> <span class="fu">tokens</span>(corp_pres, <span class="at">remove_punct =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_remove</span>(<span class="fu">stopwords</span>(<span class="st">"en"</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>dfm_pres <span class="ot">&lt;-</span> <span class="fu">dfm</span>(toks_pres)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">topfeatures</span>(dfm_pres, <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    people government         us        can       must       upon      great 
+       592        575        507        489        377        371        354 
+       may     states      world     nation    country      shall      every 
+       343        343        329        324        323        316        309 
+       one      peace        new      power        now     public 
+       274        259        256        246        238        227 </code></pre>
+</div>
+</div>
+<p><strong>Visualizing:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textplots)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_wordcloud</span>(dfm_pres)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="part-2a-i-any-similarities-and-differences-over-time-and-among-presidents" class="level2">
+<h2 class="anchored" data-anchor-id="part-2a-i-any-similarities-and-differences-over-time-and-among-presidents">Part 2a (i): “Any similarities and differences over time and among presidents?”</h2>
+<p>I analyzed presidential speeches by converting text into data, removing unnecessary words, and identifying the most frequently used terms to understand common themes and differences across time and presidents.</p>
+<section id="similarities" class="level3">
+<h3 class="anchored" data-anchor-id="similarities">Similarities</h3>
+<p>Across U.S. presidential inaugural speeches, several common themes emerge. Frequently used words such as people, government, nation, states, and country indicate a consistent focus on national unity, governance, and public responsibility. Terms like freedom, peace, and justice also appear repeatedly, suggesting that presidents consistently emphasize democratic values and collective identity regardless of time period.</p>
+</section>
+<section id="differences-over-time" class="level3">
+<h3 class="anchored" data-anchor-id="differences-over-time">Differences over time</h3>
+<p>Over time, the language of inaugural speeches reflects changing historical contexts and political priorities. Earlier speeches tend to emphasize foundational ideas such as nation-building and constitutional principles, while more recent speeches incorporate broader global and policy-oriented language. For example, modern speeches may include more references to international relations, economic challenges, and social issues, reflecting a more complex and interconnected political environment.</p>
+</section>
+<section id="differences-among-presidents" class="level3">
+<h3 class="anchored" data-anchor-id="differences-among-presidents">Differences among presidents</h3>
+<p>Differences among presidents can also be observed in their choice of language and emphasis. Some presidents use more formal and institutional language, focusing on governance and structure, while others adopt a more personal or inspirational tone. The frequency of certain words varies across presidents, indicating differences in priorities, rhetoric, and leadership style.</p>
+</section>
+</section>
+<section id="part-2b-u.s.-department-of-defense-reports" class="level2">
+<h2 class="anchored" data-anchor-id="part-2b-u.s.-department-of-defense-reports">Part 2(b): U.S. Department of Defense Reports</h2>
+<p><strong>Loading DOD data:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>files_dod <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">"~/Downloads/USDOD 2"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dod_text <span class="ot">&lt;-</span> <span class="fu">readtext</span>(files_dod)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>corp_dod <span class="ot">&lt;-</span> <span class="fu">corpus</span>(dod_text)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(corp_dod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Corpus consisting of 27 documents, showing 27 documents:
+
+                                                                                                          Text
+                                                                                             1999_GPO-CRPT.pdf
+                                                                                  2000_asia_neac_dod_china.pdf
+                                                                                               2001_DoD_AR.pdf
+                                                                                            2002_0712china.pdf
+                                                                                              2003_chinaex.pdf
+                                                                                              2004_0528PRC.pdf
+                                                                                            2005_0719china.pdf
+                                                                                                  2006_dod.pdf
+                                                                                                  2007_dod.pdf
+                                                                                                  2008_dod.pdf
+                                                                          2009_China_Military_Power_Report.pdf
+                                                                                           2010_CMPR_Final.pdf
+                                                                                           2011_CMPR_Final.pdf
+                                                                                           2012_CMPR_Final.pdf
+                                                                                   2013_China_Report_FINAL.pdf
+                                                                                     2014_DoD_China_Report.pdf
+                                                                          2015_China_Military_Power_Report.pdf
+                                                                          2016 China Military Power Report.pdf
+                                                                          2017_China_Military_Power_Report.pdf
+                                                                          2018_CHINA-MILITARY-POWER-REPORT.pdf
+                                                                          2019_CHINA_MILITARY_POWER_REPORT.pdf
+                                                                2020_DOD-CHINA-MILITARY-POWER-REPORT-FINAL.pdf
+                                                                                           2021-cmpr-final.pdf
+                           2022-military-and-security-developments-involving-the-peoples-republic-of-china.pdf
+                                                               2023-MILITARY-AND-SECURITY-DEVELOPMENTS-PRC.PDF
+                                                               2024_MILITARY-AND-SECURITY-DEVELOPMENTS-PRC.PDF
+ 2025-ANNUAL-REPORT-TO-CONGRESS-MILITARY-AND-SECURITY-DEVELOPMENTS-INVOLVING-THE-PEOPLES-REPUBLIC-OF-CHINA.PDF
+ Types Tokens Sentences
+ 16068 301499     10250
+  2990  15078       540
+ 14864 186149      6246
+  4178  25908      1051
+  4068  25848       957
+  4056  25091       876
+  3730  20326       746
+  4002  21855       642
+  3669  18144       498
+  4651  26390       679
+  5124  31910       896
+  5002  33621       768
+  5400  35578       933
+  3156  14293       346
+  4955  30563       821
+  4960  31111       850
+  5335  34712       927
+  5524  38929      1009
+  5080  33380       912
+  5759  45684      1201
+  5868  45760      1143
+  7373  74334      2341
+  7727  79375      2400
+  8086  83275      2536
+  9113  95483      2954
+  8633  94628      3003
+  5986  43945      1221</code></pre>
+</div>
+</div>
+<p><strong>Cleaning the text:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>toks_dod <span class="ot">&lt;-</span> <span class="fu">tokens</span>(corp_dod, <span class="at">remove_punct =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_remove</span>(<span class="fu">stopwords</span>(<span class="st">"en"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Creating the DFM and see top words:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dfm_dod <span class="ot">&lt;-</span> <span class="fu">dfm</span>(toks_dod)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">topfeatures</span>(dfm_dod, <span class="dv">20</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       china     military      defense          prc          pla      china’s 
+       11166        10532         7399         7164         6456         6090 
+    security          u.s        force   operations       forces     national 
+        5370         4336         3972         3750         3457         3454 
+      states       taiwan         also       united       report        prc’s 
+        3246         3168         3130         3073         2970         2878 
+         air capabilities 
+        2833         2828 </code></pre>
+</div>
+</div>
+<p><strong>Making the Wordcloud:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_wordcloud</span>(dfm_dod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Frequency Table:</strong></p>
+<p>I took a bunch of defense reports, cleaned the text, and found the most common words to understand what they focus on.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>freq_dod <span class="ot">&lt;-</span> <span class="fu">textstat_frequency</span>(dfm_dod, <span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(freq_dod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">feature</th>
+<th style="text-align: right;">frequency</th>
+<th style="text-align: right;">rank</th>
+<th style="text-align: right;">docfreq</th>
+<th style="text-align: left;">group</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">china</td>
+<td style="text-align: right;">11166</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">military</td>
+<td style="text-align: right;">10532</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">defense</td>
+<td style="text-align: right;">7399</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">prc</td>
+<td style="text-align: right;">7164</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">pla</td>
+<td style="text-align: right;">6456</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">china’s</td>
+<td style="text-align: right;">6090</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">security</td>
+<td style="text-align: right;">5370</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">u.s</td>
+<td style="text-align: right;">4336</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">force</td>
+<td style="text-align: right;">3972</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">all</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">operations</td>
+<td style="text-align: right;">3750</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: left;">all</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Analyzing the Results:</strong></p>
+<p>The analysis of U.S. Department of Defense reports shows a strong emphasis on military and strategic issues. The most frequent terms include “china,” “military,” “defense,” and “security,” indicating that the reports are heavily focused on national security and global threats. The prominence of terms such as “PRC” and “PLA” suggests that China is a central concern in these documents. Additionally, words like “force” and “operations” highlight the operational and strategic nature of the reports.</p>
+<p>Overall, compared to presidential inaugural speeches, DOD reports are more technical and focused on defense strategy, military capabilities, and international security rather than political rhetoric or public messaging.</p>
+</section>
+<section id="part-3-wordfish-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-wordfish-analysis">Part 3: Wordfish Analysis</h2>
+<p><strong>Running Wordfish Mode:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textmodels)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>wf_model <span class="ot">&lt;-</span> <span class="fu">textmodel_wordfish</span>(dfm_pres)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wf_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+textmodel_wordfish.dfm(x = dfm_pres)
+
+Estimated Document Positions:
+                   theta      se
+1789-Washington -1.30395 0.04170
+1793-Washington -0.89595 0.16008
+1797-Adams      -1.07570 0.03634
+1801-Jefferson  -0.49472 0.04978
+1805-Jefferson  -0.98071 0.03888
+1809-Madison    -1.25357 0.04765
+1813-Madison    -0.90347 0.05442
+1817-Monroe     -1.16674 0.02888
+1821-Monroe     -1.38283 0.02270
+1825-Adams      -1.27613 0.02926
+1829-Jackson    -1.34448 0.04517
+1833-Jackson    -0.96989 0.05295
+1837-VanBuren   -1.02817 0.02790
+1841-Harrison   -1.43883 0.01606
+1845-Polk       -1.26908 0.02280
+1849-Taylor     -1.13432 0.05052
+1853-Pierce     -0.71958 0.03390
+1857-Buchanan   -0.97650 0.03357
+1861-Lincoln    -1.02798 0.02991
+1865-Lincoln    -0.06934 0.08028
+1869-Grant      -0.68521 0.05842
+1873-Grant      -0.61585 0.05580
+1877-Hayes      -0.90200 0.03680
+1881-Garfield   -0.54118 0.03704
+1885-Cleveland  -0.65372 0.04835
+1889-Harrison   -0.70630 0.02959
+1893-Cleveland  -0.62283 0.04387
+1897-McKinley   -0.77157 0.03021
+1901-McKinley   -0.50960 0.04322
+1905-Roosevelt   0.45056 0.06737
+1909-Taft       -0.79474 0.02599
+1913-Wilson      0.59300 0.04886
+1917-Wilson      0.20477 0.05668
+1921-Harding     0.50436 0.03424
+1925-Coolidge   -0.09520 0.03415
+1929-Hoover     -0.04039 0.03587
+1933-Roosevelt   0.38239 0.04737
+1937-Roosevelt   0.69568 0.04460
+1941-Roosevelt   0.77854 0.05290
+1945-Roosevelt   0.91976 0.07812
+1949-Truman      0.56035 0.04119
+1953-Eisenhower  0.81792 0.03712
+1957-Eisenhower  0.80998 0.04573
+1961-Kennedy     1.00634 0.04578
+1965-Johnson     1.05446 0.04493
+1969-Nixon       1.33237 0.03113
+1973-Nixon       1.07369 0.04017
+1977-Carter      1.02216 0.04925
+1981-Reagan      1.21903 0.03191
+1985-Reagan      1.23133 0.02972
+1989-Bush        1.28813 0.03119
+1993-Clinton     1.35725 0.03464
+1997-Clinton     1.27480 0.03098
+2001-Bush        1.15128 0.04019
+2005-Bush        1.00621 0.03753
+2009-Obama       1.23471 0.03124
+2013-Obama       1.26134 0.03265
+2017-Trump       1.44655 0.03387
+2021-Biden       1.43386 0.02723
+2025-Trump       1.53970 0.02165
+
+Estimated Feature Scores:
+     fellow-citizens  senate   house representatives   among vicissitudes
+beta          -1.994 -0.7789  0.1681          -1.327 -0.1644       -2.069
+psi           -2.145 -1.9625 -1.8465          -2.193  0.3634       -4.281
+     incident   life   event  filled greater anxieties notification transmitted
+beta   -1.065 0.6735 -0.8323 -0.5701  0.2492   -0.2037       -2.064      -1.154
+psi    -2.822 0.6256 -1.9384 -2.7336 -0.2159   -3.2351       -5.884      -3.880
+       order received   14th     day present   month    one    hand summoned
+beta  0.1019   -1.420 -2.064 0.96678 -0.7580  0.2019 0.2733  0.2752   0.5986
+psi  -0.0174   -2.741 -5.884 0.07291 -0.2242 -3.5492 1.3717 -0.3096  -2.5051
+     country   whose    voice    can  never   hear veneration
+beta  -0.120 -0.4269  0.01379 0.2544 0.2950  1.937     -1.850
+psi    1.474 -0.2502 -1.08897 1.9512 0.7067 -2.829     -4.048</code></pre>
+</div>
+</div>
+<p><strong>Getting Document Positions:</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>doc_positions <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">document =</span> <span class="fu">docnames</span>(dfm_pres),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">position =</span> wf_model<span class="sc">$</span>theta</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(doc_positions)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         document   position
+1 1789-Washington -1.3039539
+2 1793-Washington -0.8959536
+3      1797-Adams -1.0757007
+4  1801-Jefferson -0.4947161
+5  1805-Jefferson -0.9807146
+6    1809-Madison -1.2535686</code></pre>
+</div>
+</div>
+<p><strong>Plotting Positions:</strong></p>
+<p>I compared all speeches based on the words they use, and turned them into numbers so I can see which ones are similar or different. These positions allow us to compare speeches and identify how they differ in terms of language, tone, and focus. For example, speeches that emphasize similar topics will appear closer together, while those with different themes will be farther apart. This helps us understand patterns and variation across presidents and over time.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>doc_positions <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">document =</span> <span class="fu">docnames</span>(dfm_pres),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">position =</span> wf_model<span class="sc">$</span>theta</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(doc_positions, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(document, position), <span class="at">y =</span> position)) <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Wordfish Positions of Inaugural Speeches"</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Document"</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="part-4-how-to-compare-positions" class="level2">
+<h2 class="anchored" data-anchor-id="part-4-how-to-compare-positions">Part 4: How to compare positions</h2>
+<p>Wordfish is a type of text scaling method that assigns positions to documents based on their word usage. Scaling methods in general are used to place documents on a numerical scale so that they can be compared systematically.</p>
+<p>In this case, Wordfish estimates a position for each speech, where the distance between positions reflects differences in language and themes. Speeches that are closer together use more similar words, while those farther apart differ more significantly.</p>
+<p>Compared to simpler scaling approaches, Wordfish is a statistical model that accounts for word frequency patterns across documents, making it a more rigorous and data-driven method. Overall, scaling methods like Wordfish allow us to compare texts and identify patterns in political language over time.</p>
+</section>
+<section id="part-5-hackathon-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="part-5-hackathon-analysis">Part 5: <strong>Hackathon Analysis</strong></h2>
+<p>Our group has already submitted the complete analysis in the Team Hackathon folder. In this individual assignment, I present a subset of the analysis to highlight my independent understanding and contribution to the overall project.</p>
+<section id="apsa-ejobs-hackathon---political-science-job-market-text-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="apsa-ejobs-hackathon---political-science-job-market-text-analysis">APSA eJobs Hackathon - Political Science Job Market Text Analysis</h3>
+<p>EPPS 6323 Knowledge Mining<br>
+Data: Political Science Jobs PDFs (2016/06 - 2026/03)<br>
+Packages: quanteda suite</p>
+</section>
+<section id="script-organization-question-driven" class="level3">
+<h3 class="anchored" data-anchor-id="script-organization-question-driven">Script organization (question-driven)</h3>
+<p>RQ Research Questions<br>
+§0 Load Packages<br>
+§1 Data Loading (PDF -&gt; RDS cache mechanism)<br>
+§2 Corpus Construction and Preprocessing<br>
+§3 Market Overview: Volume, COVID Shock, and Seasonality [RQ1]<br>
+§4 Descriptive Baseline: What Is the Market Talking About? [RQ1]<br>
+§5 Trend Analysis: Emerging Skills and Keyword Shifts [RQ3]<br>
+§6 Thematic Structure: Subfield Demand Over Time [RQ2]<br>
+§7 Market Structural Characteristics [RQ1]<br>
+§8 Language Style Shift: Has the Rhetoric Changed? [RQ4]<br>
+APP Appendix: FCM Co-occurrence Networks<br>
+§9 Export Results</p>
+</section>
+<section id="output-image-numbering" class="level3">
+<h3 class="anchored" data-anchor-id="output-image-numbering">Output image numbering</h3>
+<p>§3 01–04 | §4 05–08 | §5 09–12<br>
+§6 13–16 | §7 17–22 | §8 23–28 | APP 29–31</p>
+<hr>
+</section>
+<section id="research-questions" class="level3">
+<h3 class="anchored" data-anchor-id="research-questions">Research Questions</h3>
+<p><strong>RQ1:</strong> How have the scale and structure of the political science job market evolved over time?<br>
+(Did COVID reduce postings? How did academic vs.&nbsp;non-academic, junior vs.&nbsp;senior, and U.S. vs.&nbsp;international ratios change?)</p>
+<p><strong>RQ2:</strong> Have the relative demand shares of major subfields shifted over time?<br>
+(American Politics, Comparative Politics, IR, Political Theory, Public Administration/Policy, Methodology)</p>
+<p><strong>RQ3:</strong> Has demand for emerging skills and language—Data Science, Machine Learning, AI, DEI, Online Teaching—increased over the decade?</p>
+<p><strong>RQ4:</strong> Has the language style of job ads (lexical diversity, readability, mandatory vs.&nbsp;preference language) changed systematically over time?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 0. Packages</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(c(</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   "tidyverse", "pdftools", "quanteda", "quanteda.textmodels",</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   "quanteda.textplots", "quanteda.textstats", "ggplot2",</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   "lubridate", "ggraph", "igraph", "scales"</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ))</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pdftools)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textmodels)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textplots)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textstats)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="read-pdfs-corpus" class="level2">
+<h2 class="anchored" data-anchor-id="read-pdfs-corpus">2. Read PDFs + corpus</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pdf_folder <span class="ot">&lt;-</span> <span class="st">"~/Downloads/PSJobs201606_202603"</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pdf_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(pdf_folder, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.pdf$|</span><span class="sc">\\</span><span class="st">.PDF$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>parse_date_from_filename <span class="ot">&lt;-</span> <span class="cf">function</span>(filepath) {</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  fname <span class="ot">&lt;-</span> <span class="fu">basename</span>(filepath)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  yyyymm <span class="ot">&lt;-</span> <span class="fu">regmatches</span>(fname, <span class="fu">regexpr</span>(<span class="st">"[0-9]{6}"</span>, fname))</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(yyyymm) <span class="sc">==</span> <span class="dv">0</span> <span class="sc">||</span> <span class="fu">is.na</span>(yyyymm)) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">as.integer</span>(<span class="fu">substr</span>(yyyymm, <span class="dv">1</span>, <span class="dv">4</span>)),</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">month =</span> <span class="fu">as.integer</span>(<span class="fu">substr</span>(yyyymm, <span class="dv">5</span>, <span class="dv">6</span>)),</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">yearmon =</span> <span class="fu">paste0</span>(<span class="fu">substr</span>(yyyymm, <span class="dv">1</span>, <span class="dv">4</span>), <span class="st">"-"</span>, <span class="fu">substr</span>(yyyymm, <span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>doc_texts <span class="ot">&lt;-</span> <span class="fu">c</span>(); doc_years <span class="ot">&lt;-</span> <span class="fu">c</span>(); doc_months <span class="ot">&lt;-</span> <span class="fu">c</span>(); doc_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(); doc_names <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (f <span class="cf">in</span> pdf_files) {</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  info <span class="ot">&lt;-</span> <span class="fu">parse_date_from_filename</span>(f)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(info)) <span class="cf">next</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  pages <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(<span class="fu">pdf_text</span>(f), <span class="at">error =</span> <span class="cf">function</span>(e) <span class="cn">NULL</span>)</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(pages)) <span class="cf">next</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  doc_texts <span class="ot">&lt;-</span> <span class="fu">c</span>(doc_texts, <span class="fu">paste</span>(pages, <span class="at">collapse =</span> <span class="st">" "</span>))</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>  doc_years <span class="ot">&lt;-</span> <span class="fu">c</span>(doc_years, info<span class="sc">$</span>year)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  doc_months <span class="ot">&lt;-</span> <span class="fu">c</span>(doc_months, info<span class="sc">$</span>month)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  doc_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(doc_dates, info<span class="sc">$</span>yearmon)</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  doc_names <span class="ot">&lt;-</span> <span class="fu">c</span>(doc_names, <span class="fu">basename</span>(f))</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>doc_names_unique <span class="ot">&lt;-</span> <span class="fu">make.unique</span>(doc_names)</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>ejobs_corpus <span class="ot">&lt;-</span> <span class="fu">corpus</span>(doc_texts, <span class="at">docnames =</span> doc_names_unique)</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(ejobs_corpus, <span class="st">"year"</span>) <span class="ot">&lt;-</span> doc_years</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(ejobs_corpus, <span class="st">"month"</span>) <span class="ot">&lt;-</span> doc_months</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="fu">docvars</span>(ejobs_corpus, <span class="st">"yearmon"</span>) <span class="ot">&lt;-</span> doc_dates</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ejobs_corpus)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Corpus consisting of 113 documents, showing 100 documents:
+
+             Text Types Tokens Sentences year month yearmon
+ PSJobs201606.pdf  5541  88208      2424 2016     6 2016-06
+ PSJobs201607.pdf  5668  87457      2364 2016     7 2016-07
+ PSJobs201608.pdf  6591 123565      3549 2016     8 2016-08
+ PSJobs201609.pdf  9779 275862      7815 2016     9 2016-09
+ PSJobs201610.pdf 11958 357946      9922 2016    10 2016-10
+ PSJobs201611.pdf  8777 196597      5549 2016    11 2016-11
+ PSJobs201612.pdf  6500 115758      3340 2016    12 2016-12
+ PSJobs201701.pdf  7808 160160      4482 2017     1 2017-01
+ PSJobs201702.pdf  7808 151613      4182 2017     2 2017-02
+ PSJobs201703.pdf  6482 108343      3242 2017     3 2017-03
+ PSJobs201704.pdf  6396 107117      3163 2017     4 2017-04
+ PSJobs201705.pdf  4710  67509      1978 2017     5 2017-05
+ PSJobs201706.pdf  5298  85590      2535 2017     6 2017-06
+ PSJobs201707.pdf  6176 124167      3612 2017     7 2017-07
+ PSJobs201708.pdf  6948 145691      4219 2017     8 2017-08
+ PSJobs201709.pdf  9882 271028      7564 2017     9 2017-09
+ PSJobs201710.pdf 11153 347824      9901 2017    10 2017-10
+ PSJobs201711.pdf 11446 357176     10144 2017    11 2017-11
+ PSJobs201712.pdf  9989 293229      8421 2017    12 2017-12
+ PSJobs201801.pdf  9344 225743      6343 2018     1 2018-01
+ PSJobs201802.pdf  8995 199601      5611 2018     2 2018-02
+ PSJobs201803.pdf  7708 156793      4482 2018     3 2018-03
+ PSJobs201804.pdf  2680  14458       360 2018     4 2018-04
+ PSJobs201805.pdf  5290  93292      2859 2018     5 2018-05
+ PSJobs201806.pdf  1678   9504       282 2018     6 2018-06
+ PSJobs201807.pdf  5123  83813      2495 2018     7 2018-07
+ PSJobs201808.pdf  6704 145728      4378 2018     8 2018-08
+ PSJobs201809.pdf 10848 323598      8844 2018     9 2018-09
+ PSJobs201810.pdf 11756 376573     10460 2018    10 2018-10
+ PSJobs201811.pdf 11505 345028      9544 2018    11 2018-11
+ PSJobs201812.pdf 11006 301865      8103 2018    12 2018-12
+ PSJobs201901.pdf  9345 220560      5863 2019     1 2019-01
+ PSJobs201902.pdf  8531 173614      4772 2019     2 2019-02
+ PSJobs201903.pdf  7549 162419      4660 2019     3 2019-03
+ PSJobs201904.pdf  7638 143226      4079 2019     4 2019-04
+ PSJobs201905.pdf  5007  76121      2127 2019     5 2019-05
+ PSJobs201906.pdf  5283  83665      2352 2019     6 2019-06
+ PSJobs201907.pdf  5070  82137      2354 2019     7 2019-07
+ PSJobs201908.pdf  7768 157295      4447 2019     8 2019-08
+ PSJobs201909.pdf 10695 288056      7757 2019     9 2019-09
+ PSJobs201910.pdf 10967 315121      8571 2019    10 2019-10
+ PSJobs201911.pdf 11095 301699      8096 2019    11 2019-11
+ PSJobs201912.pdf  9826 242357      6416 2019    12 2019-12
+ PSJobs202001.pdf  9024 197860      5405 2020     1 2020-01
+ PSJobs202002.pdf  7385 146108      4042 2020     2 2020-02
+ PSJobs202003.pdf  7435 148668      4206 2020     3 2020-03
+ PSJobs202008.pdf  5412  70553      2047 2020     8 2020-08
+ PSJobs202009.pdf  5711  86234      2472 2020     9 2020-09
+ PSJobs202010.pdf  8137 167558      4458 2020    10 2020-10
+ PSJobs202011.pdf  8392 191025      4914 2020    11 2020-11
+ PSJobs202012.pdf  8490 185707      5024 2020    12 2020-12
+ PSJobs202101.pdf  8593 188582      4980 2021     1 2021-01
+ PSJobs202102.pdf  8529 177627      4995 2021     2 2021-02
+ PSJobs202103.pdf  7899 165368      4564 2021     3 2021-03
+ PSJobs202104.pdf  9161 204536      5618 2021     4 2021-04
+ PSJobs202105.pdf  7705 141202      4048 2021     5 2021-05
+ PSJobs202106.pdf  6621 112814      3097 2021     6 2021-06
+ PSJobs202107.pdf  6718 123082      3248 2021     7 2021-07
+ PSJobs202108.pdf  7633 138939      3733 2021     8 2021-08
+ PSJobs202109.pdf  8781 198084      5184 2021     9 2021-09
+ PSJobs202110.pdf 11735 333353      8812 2021    10 2021-10
+ PSJobs202111.pdf 11451 342211      8840 2021    11 2021-11
+ PSJobs202112.pdf 12003 343877      8822 2021    12 2021-12
+ PSJobs202201.pdf 10624 259775      6801 2022     1 2022-01
+ PSJobs202202.pdf 11166 273183      7278 2022     2 2022-02
+ PSJobs202203.pdf  9807 222455      5906 2022     3 2022-03
+ PSJobs202204.pdf  9567 206152      5620 2022     4 2022-04
+ PSJobs202205.pdf  7161 129982      3530 2022     5 2022-05
+ PSJobs202206.pdf  6398 106547      2980 2022     6 2022-06
+ PSJobs202207.pdf  6234 105180      2911 2022     7 2022-07
+ PSJobs202208.pdf  7998 157251      4251 2022     8 2022-08
+ PSJobs202209.pdf 11600 312096      8225 2022     9 2022-09
+ PSJobs202210.pdf 13368 422016     10955 2022    10 2022-10
+ PSJobs202211.pdf 13780 447484     11564 2022    11 2022-11
+ PSJobs202301.pdf 11227 275118      7202 2023     1 2023-01
+ PSJobs202302.pdf  9852 222755      5773 2023     2 2023-02
+ PSJobs202303.pdf  9295 194507      5210 2023     3 2023-03
+ PSJobs202304.pdf  8776 187342      5150 2023     4 2023-04
+ PSJobs202305.pdf  8703 182077      4942 2023     5 2023-05
+ PSJobs202306.pdf  7147 126809      3458 2023     6 2023-06
+ PSJobs202307.pdf  7164 122137      3302 2023     7 2023-07
+ PSJobs202308.pdf  8089 158845      4183 2023     8 2023-08
+ PSJobs202309.pdf 11141 296134      7795 2023     9 2023-09
+ PSJobs202310.pdf 12401 355808      9409 2023    10 2023-10
+ PSJobs202311.pdf 13743 394003     10259 2023    11 2023-11
+ PSJobs202312.pdf 11987 328282      8551 2023    12 2023-12
+ PSJobs202401.pdf 11076 276138      7251 2024     1 2024-01
+ PSJobs202402.pdf 10188 256639      7046 2024     2 2024-02
+ PSJobs202403.pdf  9249 231632      6310 2024     3 2024-03
+ PSJobs202404.pdf  8217 191636      4969 2024     4 2024-04
+ PSJobs202405.pdf  7534 150772      3945 2024     5 2024-05
+ PSJobs202406.pdf  5939  94456      2430 2024     6 2024-06
+ PSJobs202407.pdf  6616 112579      2968 2024     7 2024-07
+ PSJobs202408.pdf  8072 158533      4373 2024     8 2024-08
+ PSJobs202409.pdf 11177 285931      7729 2024     9 2024-09
+ PSJobs202410.pdf 12528 354521      9367 2024    10 2024-10
+ PSJobs202411.pdf 13170 382742     10188 2024    11 2024-11
+ PSJobs202412.pdf 11999 308401      8194 2024    12 2024-12
+ PSJobs202501.pdf  9892 197238      5187 2025     1 2025-01
+ PSJobs202502.pdf  8693 174565      4639 2025     2 2025-02</code></pre>
+</div>
+</div>
+</section>
+<section id="stopwords" class="level2">
+<h2 class="anchored" data-anchor-id="stopwords">3. Stopwords</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>standard_stopwords <span class="ot">&lt;-</span> <span class="fu">stopwords</span>(<span class="st">"english"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>ejobs_stopwords <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"application"</span>, <span class="st">"applications"</span>, <span class="st">"applicants"</span>, <span class="st">"applicant"</span>, <span class="st">"apply"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"submit"</span>, <span class="st">"submitted"</span>, <span class="st">"submission"</span>, <span class="st">"please"</span>, <span class="st">"send"</span>, <span class="st">"email"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"letter"</span>, <span class="st">"cover"</span>, <span class="st">"curriculum"</span>, <span class="st">"vitae"</span>, <span class="st">"cv"</span>, <span class="st">"resume"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"review"</span>, <span class="st">"begin"</span>, <span class="st">"beginning"</span>, <span class="st">"continue"</span>, <span class="st">"filled"</span>, <span class="st">"fill"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"materials"</span>, <span class="st">"material"</span>, <span class="st">"documents"</span>, <span class="st">"document"</span>, <span class="st">"upload"</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"interfolio"</span>, <span class="st">"online"</span>, <span class="st">"system"</span>, <span class="st">"portal"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"position"</span>, <span class="st">"positions"</span>, <span class="st">"rank"</span>, <span class="st">"salary"</span>, <span class="st">"competitive"</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"start"</span>, <span class="st">"date"</span>, <span class="st">"posted"</span>, <span class="st">"deadline"</span>, <span class="st">"open"</span>, <span class="st">"until"</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ejobs"</span>, <span class="st">"apsanet"</span>, <span class="st">"listing"</span>, <span class="st">"listings"</span>, <span class="st">"current"</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"jobs"</span>, <span class="st">"job"</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"equal"</span>, <span class="st">"opportunity"</span>, <span class="st">"affirmative"</span>, <span class="st">"action"</span>, <span class="st">"employer"</span>,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"discrimination"</span>, <span class="st">"regardless"</span>, <span class="st">"race"</span>, <span class="st">"color"</span>, <span class="st">"religion"</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"sex"</span>, <span class="st">"sexual"</span>, <span class="st">"orientation"</span>, <span class="st">"gender"</span>, <span class="st">"identity"</span>, <span class="st">"age"</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"disability"</span>, <span class="st">"veteran"</span>, <span class="st">"status"</span>, <span class="st">"minority"</span>, <span class="st">"minorities"</span>,</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"diversity"</span>, <span class="st">"diverse"</span>, <span class="st">"inclusive"</span>, <span class="st">"inclusion"</span>,</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"underrepresented"</span>, <span class="st">"backgrounds"</span>,</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"letters"</span>, <span class="st">"recommendation"</span>, <span class="st">"references"</span>, <span class="st">"reference"</span>,</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"three"</span>, <span class="st">"two"</span>, <span class="st">"one"</span>, <span class="st">"names"</span>, <span class="st">"contact"</span>, <span class="st">"information"</span>,</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"fall"</span>, <span class="st">"spring"</span>, <span class="st">"summer"</span>, <span class="st">"academic"</span>, <span class="st">"year"</span>, <span class="st">"years"</span>,</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"full"</span>, <span class="st">"time"</span>, <span class="st">"part"</span>, <span class="st">"semester"</span>, <span class="st">"annual"</span>,</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"also"</span>, <span class="st">"well"</span>, <span class="st">"will"</span>, <span class="st">"including"</span>, <span class="st">"may"</span>,</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"must"</span>, <span class="st">"can"</span>, <span class="st">"ability"</span>, <span class="st">"strong"</span>, <span class="st">"excellent"</span>, <span class="st">"experience"</span>,</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>  <span class="st">"record"</span>, <span class="st">"evidence"</span>, <span class="st">"demonstrated"</span>, <span class="st">"commitment"</span>, <span class="st">"available"</span>,</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"based"</span>, <span class="st">"following"</span>, <span class="st">"required"</span>, <span class="st">"preferred"</span>,</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>  <span class="st">"candidate"</span>, <span class="st">"candidates"</span>, <span class="st">"successful"</span>, <span class="st">"qualified"</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>all_stopwords <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">c</span>(standard_stopwords, ejobs_stopwords))</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(all_stopwords)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 295</code></pre>
+</div>
+</div>
+</section>
+<section id="tokens-and-dfm" class="level1">
+<h1>3. Tokens and DFM</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ejobs_tokens <span class="ot">&lt;-</span> <span class="fu">tokens</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  ejobs_corpus,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_punct =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_symbols =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_url =</span> <span class="cn">TRUE</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_tolower</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_remove</span>(all_stopwords) <span class="sc">|&gt;</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_select</span>(<span class="at">min_nchar =</span> <span class="dv">3</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>important_compounds <span class="ot">&lt;-</span> <span class="fu">phrase</span>(<span class="fu">c</span>(</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"political science"</span>, <span class="st">"public policy"</span>, <span class="st">"public administration"</span>,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"international relations"</span>, <span class="st">"comparative politics"</span>, <span class="st">"political theory"</span>,</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"american politics"</span>, <span class="st">"american government"</span>, <span class="st">"public law"</span>,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tenure track"</span>, <span class="st">"assistant professor"</span>, <span class="st">"associate professor"</span>,</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"visiting assistant"</span>, <span class="st">"postdoctoral fellow"</span>, <span class="st">"research associate"</span>,</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data science"</span>, <span class="st">"machine learning"</span>, <span class="st">"artificial intelligence"</span>,</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"quantitative methods"</span>, <span class="st">"research methods"</span>, <span class="st">"mixed methods"</span>,</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"teaching load"</span>, <span class="st">"course load"</span>, <span class="st">"liberal arts"</span>,</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>  <span class="st">"graduate students"</span>, <span class="st">"undergraduate students"</span>,</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>  <span class="st">"phd required"</span>, <span class="st">"phd preferred"</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>ejobs_tokens_comp <span class="ot">&lt;-</span> <span class="fu">tokens_compound</span>(ejobs_tokens, <span class="at">pattern =</span> important_compounds)</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a>ejobs_dfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(ejobs_tokens) <span class="sc">|&gt;</span> <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">5</span>)</span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a>ejobs_dfm_comp <span class="ot">&lt;-</span> <span class="fu">dfm</span>(ejobs_tokens_comp) <span class="sc">|&gt;</span> <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">5</span>)</span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-30"><a href="#cb24-30" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"DFM docs:"</span>, <span class="fu">ndoc</span>(ejobs_dfm), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DFM docs: 113 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"DFM features:"</span>, <span class="fu">nfeat</span>(ejobs_dfm), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>DFM features: 26955 </code></pre>
+</div>
+</div>
+</section>
+<section id="overall-top-30-most-frequent-terms" class="level1">
+<h1>4. Overall top 30 most frequent terms</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>top_freq <span class="ot">&lt;-</span> <span class="fu">textstat_frequency</span>(ejobs_dfm, <span class="at">n =</span> <span class="dv">30</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_freq, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(feature, frequency), <span class="at">y =</span> frequency)) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#4A90E2"</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"APSA eJobs - Top 30 Most Frequent Terms (2016-2026)"</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">"Based on "</span>, <span class="fu">ndoc</span>(ejobs_dfm), <span class="st">" monthly issues"</span>),</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Frequency"</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Term"</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/plot_top_terms-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="top-terms-by-year" class="level1">
+<h1>5. Top terms by year</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ejobs_dfm_year <span class="ot">&lt;-</span> <span class="fu">dfm_group</span>(ejobs_dfm, <span class="at">groups =</span> <span class="fu">docvars</span>(ejobs_corpus, <span class="st">"year"</span>))</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>top_freq_year <span class="ot">&lt;-</span> <span class="fu">textstat_frequency</span>(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  ejobs_dfm_year,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">15</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">groups =</span> <span class="fu">docvars</span>(ejobs_dfm_year, <span class="st">"year"</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(top_freq_year, <span class="fu">aes</span>(<span class="at">x =</span> frequency, <span class="at">y =</span> <span class="fu">fct_reorder</span>(feature, frequency))) <span class="sc">+</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#69B36D"</span>) <span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> group, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"APSA eJobs - Top Terms by Year"</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Frequency"</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Term"</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/plot_terms_by_year-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="word-cloud" class="level1">
+<h1>6. Word cloud</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_wordcloud</span>(ejobs_dfm, <span class="at">max_words =</span> <span class="dv">100</span>, <span class="at">min_size =</span> <span class="fl">0.8</span>, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/plot_wordcloud-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="relative-frequency-trend-research-vs-teaching" class="level1">
+<h1>7. Relative frequency trend: research vs teaching</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>track_trend <span class="ot">&lt;-</span> <span class="cf">function</span>(dfm_obj, keyword) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  freq <span class="ot">&lt;-</span> <span class="fu">textstat_frequency</span>(<span class="fu">dfm_weight</span>(dfm_obj, <span class="at">scheme =</span> <span class="st">"prop"</span>),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">groups =</span> <span class="fu">docvars</span>(dfm_obj, <span class="st">"yearmon"</span>))</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  freq <span class="sc">|&gt;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(feature <span class="sc">==</span> keyword) <span class="sc">|&gt;</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">yearmon_date =</span> <span class="fu">ym</span>(group))</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>research_trend <span class="ot">&lt;-</span> <span class="fu">track_trend</span>(ejobs_dfm, <span class="st">"research"</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>teaching_trend <span class="ot">&lt;-</span> <span class="fu">track_trend</span>(ejobs_dfm, <span class="st">"teaching"</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(research_trend) <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> <span class="fu">nrow</span>(teaching_trend) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  trend_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(research_trend, <span class="at">keyword =</span> <span class="st">"research"</span>),</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(teaching_trend, <span class="at">keyword =</span> <span class="st">"teaching"</span>)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(trend_data, <span class="fu">aes</span>(<span class="at">x =</span> yearmon_date, <span class="at">y =</span> frequency, <span class="at">color =</span> keyword, <span class="at">group =</span> keyword)) <span class="sc">+</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.9</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">alpha =</span> <span class="fl">0.15</span>) <span class="sc">+</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"research"</span> <span class="ot">=</span> <span class="st">"#2E77D0"</span>, <span class="st">"teaching"</span> <span class="ot">=</span> <span class="st">"#C62828"</span>)) <span class="sc">+</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">'Relative Frequency Trend: "research" vs "teaching"'</span>,</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"APSA eJobs 2016-2026"</span>,</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Year-Month"</span>,</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Relative Frequency (%)"</span>,</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"Keyword"</span></span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/plot_research_teaching-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dictionary-based-theme-distribution" class="level1">
+<h1>8. Dictionary-based theme distribution</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>polisci_dictionary <span class="ot">&lt;-</span> <span class="fu">dictionary</span>(<span class="fu">list</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">American_Politics =</span> <span class="fu">c</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"american government"</span>, <span class="st">"american politics"</span>, <span class="st">"congress"</span>, <span class="st">"presidency"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"electoral"</span>, <span class="st">"elections"</span>, <span class="st">"voting"</span>, <span class="st">"legislature"</span>, <span class="st">"senate"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"supreme court"</span>, <span class="st">"constitutional"</span>, <span class="st">"federalism"</span>, <span class="st">"public opinion"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"political parties"</span>, <span class="st">"campaigns"</span>, <span class="st">"interest groups"</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">International_Relations =</span> <span class="fu">c</span>(</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"international relations"</span>, <span class="st">"foreign policy"</span>, <span class="st">"security"</span>, <span class="st">"conflict"</span>,</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"war"</span>, <span class="st">"peace"</span>, <span class="st">"diplomacy"</span>, <span class="st">"global"</span>, <span class="st">"geopolitics"</span>,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"international organization"</span>, <span class="st">"united nations"</span>, <span class="st">"arms"</span>, <span class="st">"nuclear"</span>,</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"alliance"</span>, <span class="st">"hegemony"</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Comparative_Politics =</span> <span class="fu">c</span>(</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"comparative politics"</span>, <span class="st">"comparative"</span>, <span class="st">"democratization"</span>, <span class="st">"regime"</span>,</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"authoritarian"</span>, <span class="st">"institutions"</span>, <span class="st">"developing"</span>, <span class="st">"europe"</span>,</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"latin america"</span>, <span class="st">"asia"</span>, <span class="st">"africa"</span>, <span class="st">"middle east"</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">Political_Theory =</span> <span class="fu">c</span>(</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"political theory"</span>, <span class="st">"political philosophy"</span>, <span class="st">"normative"</span>, <span class="st">"justice"</span>,</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"liberalism"</span>, <span class="st">"democracy"</span>, <span class="st">"rights"</span>, <span class="st">"ethics"</span>, <span class="st">"deliberation"</span>,</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"citizenship"</span>, <span class="st">"sovereignty"</span>, <span class="st">"legitimacy"</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">Public_Admin_Policy =</span> <span class="fu">c</span>(</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"public administration"</span>, <span class="st">"public policy"</span>, <span class="st">"bureaucracy"</span>, <span class="st">"governance"</span>,</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"implementation"</span>, <span class="st">"regulation"</span>, <span class="st">"nonprofit"</span>, <span class="st">"local government"</span>,</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"urban"</span>, <span class="st">"budgeting"</span>, <span class="st">"mpa"</span></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">Methodology =</span> <span class="fu">c</span>(</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"quantitative"</span>, <span class="st">"qualitative"</span>, <span class="st">"mixed methods"</span>, <span class="st">"statistics"</span>,</span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"regression"</span>, <span class="st">"experiment"</span>, <span class="st">"survey"</span>, <span class="st">"causal inference"</span>,</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"machine learning"</span>, <span class="st">"data science"</span>, <span class="st">"computational"</span>, <span class="st">"text analysis"</span>,</span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"formal modeling"</span>, <span class="st">"game theory"</span>, <span class="st">"r programming"</span></span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">Tenure_Track =</span> <span class="fu">c</span>(</span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tenure track"</span>, <span class="st">"tenure-track"</span>, <span class="st">"tenured"</span>, <span class="st">"promotion"</span>,</span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"assistant professor"</span>, <span class="st">"associate professor"</span>, <span class="st">"full professor"</span></span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">Non_Tenure =</span> <span class="fu">c</span>(</span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">"visiting"</span>, <span class="st">"lecturer"</span>, <span class="st">"instructor"</span>, <span class="st">"non-tenure"</span>,</span>
+<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">"term position"</span>, <span class="st">"one-year"</span>, <span class="st">"renewable"</span></span>
+<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">Postdoc =</span> <span class="fu">c</span>(</span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"postdoctoral"</span>, <span class="st">"postdoc"</span>, <span class="st">"fellowship"</span>, <span class="st">"fellow"</span>,</span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">"research associate"</span>, <span class="st">"research scholar"</span></span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">Digital_Skills =</span> <span class="fu">c</span>(</span>
+<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span>, <span class="st">"computational"</span>, <span class="st">"programming"</span>, <span class="st">"python"</span>, <span class="st">"r studio"</span>,</span>
+<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"machine learning"</span>, <span class="st">"artificial intelligence"</span>, <span class="st">"big data"</span>,</span>
+<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"network analysis"</span>, <span class="st">"text analysis"</span>, <span class="st">"gis"</span>, <span class="st">"visualization"</span></span>
+<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">DEI_Language =</span> <span class="fu">c</span>(</span>
+<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">"diversity"</span>, <span class="st">"equity"</span>, <span class="st">"inclusion"</span>, <span class="st">"inclusive"</span>, <span class="st">"underrepresented"</span>,</span>
+<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"marginalized"</span>, <span class="st">"antiracist"</span>, <span class="st">"social justice"</span>, <span class="st">"belonging"</span>,</span>
+<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">"multicultural"</span></span>
+<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">Online_Teaching =</span> <span class="fu">c</span>(</span>
+<span id="cb33-58"><a href="#cb33-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"online"</span>, <span class="st">"remote"</span>, <span class="st">"hybrid"</span>, <span class="st">"distance learning"</span>, <span class="st">"asynchronous"</span>,</span>
+<span id="cb33-59"><a href="#cb33-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"synchronous"</span>, <span class="st">"virtual"</span>, <span class="st">"zoom"</span></span>
+<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a>dict_result <span class="ot">&lt;-</span> <span class="fu">dfm_lookup</span>(<span class="fu">dfm</span>(ejobs_tokens_comp), <span class="at">dictionary =</span> polisci_dictionary)</span>
+<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a>theme_total <span class="ot">&lt;-</span> <span class="fu">convert</span>(dict_result, <span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>doc_id) <span class="sc">|&gt;</span></span>
+<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), sum)) <span class="sc">|&gt;</span></span>
+<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"Theme"</span>, <span class="at">values_to =</span> <span class="st">"Count"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Count))</span>
+<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-71"><a href="#cb33-71" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(theme_total, <span class="fu">aes</span>(<span class="at">x =</span> Count, <span class="at">y =</span> <span class="fu">fct_reorder</span>(Theme, Count), <span class="at">fill =</span> Theme)) <span class="sc">+</span></span>
+<span id="cb33-72"><a href="#cb33-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"APSA eJobs - Theme Distribution (2016-2026)"</span>,</span>
+<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Dictionary-based analysis"</span>,</span>
+<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Term Count"</span>,</span>
+<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Theme"</span></span>
+<span id="cb33-78"><a href="#cb33-78" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb33-79"><a href="#cb33-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/build_dictionary-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="theme-trends-over-time" class="level1">
+<h1>9. Theme trends over time</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>dict_df <span class="ot">&lt;-</span> <span class="fu">convert</span>(dict_result, <span class="at">to =</span> <span class="st">"data.frame"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">yearmon =</span> <span class="fu">docvars</span>(dict_result, <span class="st">"yearmon"</span>),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">docvars</span>(dict_result, <span class="st">"year"</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>theme_trend <span class="ot">&lt;-</span> dict_df <span class="sc">|&gt;</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), sum), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>year, <span class="at">names_to =</span> <span class="st">"Theme"</span>, <span class="at">values_to =</span> <span class="st">"Count"</span>)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>key_themes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Digital_Skills"</span>, <span class="st">"DEI_Language"</span>, <span class="st">"Online_Teaching"</span>,</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Postdoc"</span>, <span class="st">"Tenure_Track"</span>, <span class="st">"Methodology"</span>)</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">filter</span>(theme_trend, Theme <span class="sc">%in%</span> key_themes),</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> Count, <span class="at">color =</span> Theme, <span class="at">group =</span> Theme)) <span class="sc">+</span></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Theme Trends Over Time - APSA eJobs (2016-2026)"</span>,</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Annual aggregated dictionary term counts"</span>,</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Term Count"</span>,</span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Theme"</span></span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/plot_theme_distribution-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="kwic-on-raw-tokens-for-multi-word-phrases" class="level1">
+<h1>10. KWIC on raw tokens for multi-word phrases</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ejobs_tokens_raw <span class="ot">&lt;-</span> <span class="fu">tokens</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  ejobs_corpus,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_punct =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_numbers =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_symbols =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">remove_url =</span> <span class="cn">TRUE</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tokens_tolower</span>()</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>multiword_patterns <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data science"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"data science"</span>),</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"machine learning"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"machine learning"</span>),</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"artificial intelligence"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"artificial intelligence"</span>),</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"online teaching"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"online teaching"</span>),</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"tenure track"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"tenure track"</span>),</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"political science"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"political science"</span>),</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"public policy"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"public policy"</span>),</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">"assistant professor"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"assistant professor"</span>),</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"postdoctoral fellow"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"postdoctoral fellow"</span>),</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>  <span class="st">"diversity equity"</span> <span class="ot">=</span> <span class="fu">phrase</span>(<span class="st">"diversity equity"</span>)</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>kwic_count_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pattern =</span> <span class="fu">character</span>(), <span class="at">count =</span> <span class="fu">integer</span>())</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (label <span class="cf">in</span> <span class="fu">names</span>(multiword_patterns)) {</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">kwic</span>(ejobs_tokens_raw, <span class="at">pattern =</span> multiword_patterns[[label]], <span class="at">window =</span> <span class="dv">4</span>)</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>  kwic_count_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>    kwic_count_df,</span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">pattern =</span> label, <span class="at">count =</span> <span class="fu">nrow</span>(result))</span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>kwic_count_df <span class="ot">&lt;-</span> kwic_count_df <span class="sc">|&gt;</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(count))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="phrase-bar-chart" class="level2">
+<h2 class="anchored" data-anchor-id="phrase-bar-chart">Phrase bar chart</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(kwic_count_df, <span class="fu">aes</span>(<span class="at">x =</span> count, <span class="at">y =</span> <span class="fu">fct_reorder</span>(pattern, count), <span class="at">fill =</span> count)) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> count), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.15</span>, <span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"#BBDEFB"</span>, <span class="at">high =</span> <span class="st">"#0D47A1"</span>) <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expand_limits</span>(<span class="at">x =</span> <span class="fu">max</span>(kwic_count_df<span class="sc">$</span>count) <span class="sc">*</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Multi-word Phrase Frequency in APSA eJobs (2016-2026)"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Searched on raw (non-stopword-removed) tokens"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Total Occurrences"</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Phrase"</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/kwic_phrases bar chart-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="emerging-phrase-trends-over-time" class="level1">
+<h1>11. Emerging phrase trends over time</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>count_by_year <span class="ot">&lt;-</span> <span class="cf">function</span>(tokens_obj, pat, year_vec) {</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">kwic</span>(tokens_obj, <span class="at">pattern =</span> pat, <span class="at">window =</span> <span class="dv">1</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(result) <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">year =</span> <span class="fu">integer</span>(), <span class="at">count =</span> <span class="fu">integer</span>()))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  result<span class="sc">$</span>year <span class="ot">&lt;-</span> year_vec[<span class="fu">match</span>(result<span class="sc">$</span>docname, <span class="fu">names</span>(tokens_obj))]</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  result <span class="sc">|&gt;</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>doc_year_map <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">docvars</span>(ejobs_corpus, <span class="st">"year"</span>), <span class="fu">docnames</span>(ejobs_corpus))</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>ds_year <span class="ot">&lt;-</span> <span class="fu">count_by_year</span>(ejobs_tokens_raw, <span class="fu">phrase</span>(<span class="st">"data science"</span>), doc_year_map)</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>ml_year <span class="ot">&lt;-</span> <span class="fu">count_by_year</span>(ejobs_tokens_raw, <span class="fu">phrase</span>(<span class="st">"machine learning"</span>), doc_year_map)</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>ai_year <span class="ot">&lt;-</span> <span class="fu">count_by_year</span>(ejobs_tokens_raw, <span class="fu">phrase</span>(<span class="st">"artificial intelligence"</span>), doc_year_map)</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>dei_year <span class="ot">&lt;-</span> <span class="fu">count_by_year</span>(ejobs_tokens_raw, <span class="fu">phrase</span>(<span class="st">"diversity equity"</span>), doc_year_map)</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>phrase_trend <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(ds_year, <span class="at">phrase =</span> <span class="st">"data science"</span>),</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(ml_year, <span class="at">phrase =</span> <span class="st">"machine learning"</span>),</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(ai_year, <span class="at">phrase =</span> <span class="st">"artificial intelligence"</span>),</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(dei_year, <span class="at">phrase =</span> <span class="st">"diversity equity"</span>)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(year))</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(phrase_trend) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(phrase_trend, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> count, <span class="at">color =</span> phrase, <span class="at">group =</span> phrase)) <span class="sc">+</span></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">2016</span><span class="sc">:</span><span class="dv">2026</span>) <span class="sc">+</span></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Emerging Keyword Trends in APSA eJobs (2016-2026)"</span>,</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">subtitle =</span> <span class="st">"Annual occurrence of selected multi-word phrases"</span>,</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Occurrences"</span>,</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"Phrase"</span></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/emerging phrase trends-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="co-occurrence-network" class="level1">
+<h1>12. Co-occurrence network</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>top_terms_40 <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">topfeatures</span>(ejobs_dfm, <span class="dv">40</span>))</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>ejobs_fcm <span class="ot">&lt;-</span> <span class="fu">fcm</span>(ejobs_tokens)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>ejobs_fcm_select <span class="ot">&lt;-</span> <span class="fu">fcm_select</span>(ejobs_fcm, <span class="at">pattern =</span> top_terms_40)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_network</span>(</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  ejobs_fcm_select,</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">min_freq =</span> <span class="fl">0.6</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">edge_alpha =</span> <span class="fl">0.4</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">edge_color =</span> <span class="st">"#1565C0"</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex_labelsize =</span> <span class="fl">3.5</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex_color =</span> <span class="st">"#FFF9C4"</span>,</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">vertex_size =</span> <span class="dv">2</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/network-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="wordfish-by-year" class="level1">
+<h1>13. Wordfish by year</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ejobs_dfm_year_wf <span class="ot">&lt;-</span> ejobs_dfm_year <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dfm_trim</span>(<span class="at">min_termfreq =</span> <span class="dv">10</span>, <span class="at">max_docfreq =</span> <span class="fl">0.95</span>, <span class="at">docfreq_type =</span> <span class="st">"prop"</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>wf_model <span class="ot">&lt;-</span> <span class="fu">textmodel_wordfish</span>(ejobs_dfm_year_wf, <span class="at">dir =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">ndoc</span>(ejobs_dfm_year_wf)))</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>wf_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">rownames</span>(ejobs_dfm_year_wf),</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> wf_model<span class="sc">$</span>theta,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> wf_model<span class="sc">$</span>se.theta</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wf_df, <span class="fu">aes</span>(<span class="at">x =</span> theta, <span class="at">y =</span> <span class="fu">reorder</span>(year, theta))) <span class="sc">+</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">"#1565C0"</span>) <span class="sc">+</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbarh</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> theta <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se, <span class="at">xmax =</span> theta <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se),</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">height =</span> <span class="fl">0.25</span>, <span class="at">color =</span> <span class="st">"#1565C0"</span>, <span class="at">alpha =</span> <span class="fl">0.65</span>) <span class="sc">+</span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey50"</span>) <span class="sc">+</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Wordfish Document Positions by Year - APSA eJobs"</span>,</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Negative theta = earlier language style | Positive = recent language style"</span>,</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Estimated Position (theta ± 95% CI)"</span>,</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Year"</span></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `geom_errorbarh()` was deprecated in ggplot2 4.0.0.
+ℹ Please use the `orientation` argument of `geom_errorbar()` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`height` was translated to `width`.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/wordfish 1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="wordfish-feature-positions" class="level1">
+<h1>14. Wordfish feature positions</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>wf_features <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">feature =</span> wf_model<span class="sc">$</span>features,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">beta =</span> wf_model<span class="sc">$</span>beta,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">psi =</span> wf_model<span class="sc">$</span>psi</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="fu">abs</span>(beta)))</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>highlight_words <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">head</span>(wf_features<span class="sc">$</span>feature, <span class="dv">15</span>), <span class="fu">tail</span>(wf_features<span class="sc">$</span>feature, <span class="dv">15</span>))</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_scale1d</span>(wf_model, <span class="at">margin =</span> <span class="st">"features"</span>, <span class="at">highlighted =</span> highlight_words)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/wordfish positions-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="keyness-recent-vs-early" class="level1">
+<h1>15. Keyness: recent vs early</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>period_group <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">docvars</span>(ejobs_corpus, <span class="st">"year"</span>) <span class="sc">&lt;=</span> <span class="dv">2019</span>,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Early_2016_2019"</span>,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Recent_2020_2026"</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>ejobs_dfm_period <span class="ot">&lt;-</span> <span class="fu">dfm_group</span>(</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  ejobs_dfm,</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">groups =</span> period_group</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>keyness_result <span class="ot">&lt;-</span> <span class="fu">textstat_keyness</span>(</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  ejobs_dfm_period,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">target =</span> <span class="st">"Recent_2020_2026"</span>,</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">measure =</span> <span class="st">"chi2"</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a><span class="fu">textplot_keyness</span>(</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>  keyness_result,</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">20</span>,</span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> <span class="fu">c</span>(<span class="st">"#B71C1C"</span>, <span class="st">"#1565C0"</span>)</span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Keyness Analysis: Recent (2020-2026) vs Early (2016-2019)"</span>,</span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Red = more frequent recently | Blue = more frequent early"</span></span>
+<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="epps6323assignment4_files/figure-html/keyness_recent_vs_early-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

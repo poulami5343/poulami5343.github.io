@@ -164,8 +164,3 @@ contrasts(ShelveLoc)
 ```{r}
 summary(lm(medv~lstat*age,data=Boston))
 ```
-
-
-
-
-

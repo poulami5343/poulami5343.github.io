@@ -192,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#load-data" id="toc-load-data" class="nav-link active" data-scroll-target="#load-data">3.Load Data:</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link active" data-scroll-target="#load-data">3. Load Data:</a></li>
   <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression">4. Multiple Regression:</a></li>
   <li><a href="#function-regplot" id="toc-function-regplot" class="nav-link" data-scroll-target="#function-regplot">Function: regplot:</a></li>
   <li><a href="#regplot-on-the-dependent-variables" id="toc-regplot-on-the-dependent-variables" class="nav-link" data-scroll-target="#regplot-on-the-dependent-variables">5. Regplot on the Dependent Variables</a></li>
@@ -234,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p><strong>In addition to the analysis presented in this document, the corresponding lab work (Lab_ML01) has been rendered and uploaded to the course website under the “Labs” section as Lab 3. The lab files include the full code, output, and visualizations used in the exploratory data analysis</strong></p>
 <section id="load-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-data">3.Load Data:</h2>
+<h2 class="anchored" data-anchor-id="load-data">3. Load Data:</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -244,17 +244,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="multiple-regression" class="level2">
 <h2 class="anchored" data-anchor-id="multiple-regression">4. Multiple Regression:</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Tondu <span class="sc">~</span> age <span class="sc">+</span> edu <span class="sc">+</span> income, <span class="at">data =</span> TEDS_2016)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Tondu <span class="sc">~</span> age <span class="sc">+</span> edu <span class="sc">+</span> income, <span class="at">data =</span> TEDS_2016)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Tondu ~ age + edu + income, data = TEDS_2016)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.7780 -1.1841 -0.4322  1.1079  5.4157 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  5.302529   0.257369  20.603  &lt; 2e-16 ***
+age         -0.004205   0.003194  -1.316   0.1882    
+edu         -0.244608   0.037579  -6.509 9.96e-11 ***
+income      -0.031855   0.016357  -1.948   0.0516 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.725 on 1676 degrees of freedom
+  (10 observations deleted due to missingness)
+Multiple R-squared:  0.04287,   Adjusted R-squared:  0.04115 
+F-statistic: 25.02 on 3 and 1676 DF,  p-value: 7.771e-16</code></pre>
+</div>
 </div>
 </section>
 <section id="function-regplot" class="level2">
 <h2 class="anchored" data-anchor-id="function-regplot">Function: regplot:</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>regplot<span class="ot">=</span><span class="cf">function</span>(x,y){</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a> fit<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(x,y)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">abline</span>(fit,<span class="at">col=</span><span class="st">"red"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>regplot<span class="ot">=</span><span class="cf">function</span>(x,y){</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> fit<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(x,y)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">abline</span>(fit,<span class="at">col=</span><span class="st">"red"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="regplot-on-the-dependent-variables" class="level2">
@@ -263,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="regression-plot-age" class="level2">
 <h2 class="anchored" data-anchor-id="regression-plot-age">Regression Plot: Age:</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>age, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>age, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -276,7 +300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="regression-plot-education" class="level2">
 <h2 class="anchored" data-anchor-id="regression-plot-education">Regression Plot: Education:</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>edu, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>edu, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -289,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="regression-plot-income" class="level2">
 <h2 class="anchored" data-anchor-id="regression-plot-income">Regression Plot: Income:</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>income, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>income, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

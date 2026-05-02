@@ -1,0 +1,733 @@
+---
+title: "Assignment 4: Text Analytics using quanteda"
+author: "Poulami Sarker"
+format: html
+editor: visual
+---
+
+## Introduction
+
+This assignment uses quanteda to analyze text data including U.S. presidential inaugural speeches, Department of Defense reports, and APSA job postings.
+
+## Part 2(a): Presidential Speeches
+
+```{r warning=FALSE, message=FALSE}
+library(quanteda)
+library(quanteda.textmodels)
+library(readtext)
+```
+
+**Collecting Speeches:**
+
+```{r}
+data("data_corpus_inaugural")
+corp_pres <- corpus(data_corpus_inaugural)
+summary(corp_pres)
+```
+
+**Cleaning and Counting the Texts:**
+
+```{r}
+toks_pres <- tokens(corp_pres, remove_punct = TRUE) |>
+  tokens_remove(stopwords("en"))
+
+dfm_pres <- dfm(toks_pres)
+
+topfeatures(dfm_pres, 20)
+```
+
+**Visualizing:**
+
+```{r warning=FALSE, message=FALSE}
+library(quanteda.textplots)
+textplot_wordcloud(dfm_pres)
+```
+
+## Part 2a (i): “Any similarities and differences over time and among presidents?”
+
+I analyzed presidential speeches by converting text into data, removing unnecessary words, and identifying the most frequently used terms to understand common themes and differences across time and presidents.
+
+### Similarities
+
+Across U.S. presidential inaugural speeches, several common themes emerge. Frequently used words such as people, government, nation, states, and country indicate a consistent focus on national unity, governance, and public responsibility. Terms like freedom, peace, and justice also appear repeatedly, suggesting that presidents consistently emphasize democratic values and collective identity regardless of time period.
+
+### Differences over time
+
+Over time, the language of inaugural speeches reflects changing historical contexts and political priorities. Earlier speeches tend to emphasize foundational ideas such as nation-building and constitutional principles, while more recent speeches incorporate broader global and policy-oriented language. For example, modern speeches may include more references to international relations, economic challenges, and social issues, reflecting a more complex and interconnected political environment.
+
+### Differences among presidents
+
+Differences among presidents can also be observed in their choice of language and emphasis. Some presidents use more formal and institutional language, focusing on governance and structure, while others adopt a more personal or inspirational tone. The frequency of certain words varies across presidents, indicating differences in priorities, rhetoric, and leadership style.
+
+## Part 2(b): U.S. Department of Defense Reports
+
+**Loading DOD data:**
+
+```{r warning=FALSE, message=FALSE}
+files_dod <- list.files("~/Downloads/USDOD 2", full.names = TRUE)
+
+dod_text <- readtext(files_dod)
+corp_dod <- corpus(dod_text)
+
+summary(corp_dod)
+```
+
+**Cleaning the text:**
+
+```{r}
+toks_dod <- tokens(corp_dod, remove_punct = TRUE) |>
+  tokens_remove(stopwords("en"))
+```
+
+**Creating the DFM and see top words:**
+
+```{r}
+dfm_dod <- dfm(toks_dod)
+topfeatures(dfm_dod, 20)
+```
+
+**Making the Wordcloud:**
+
+```{r}
+textplot_wordcloud(dfm_dod)
+```
+
+**Frequency Table:**
+
+I took a bunch of defense reports, cleaned the text, and found the most common words to understand what they focus on.
+
+```{r}
+library(quanteda.textstats)
+freq_dod <- textstat_frequency(dfm_dod, n = 10)
+
+knitr::kable(freq_dod)
+```
+
+**Analyzing the Results:**
+
+The analysis of U.S. Department of Defense reports shows a strong emphasis on military and strategic issues. The most frequent terms include “china,” “military,” “defense,” and “security,” indicating that the reports are heavily focused on national security and global threats. The prominence of terms such as “PRC” and “PLA” suggests that China is a central concern in these documents. Additionally, words like “force” and “operations” highlight the operational and strategic nature of the reports.
+
+Overall, compared to presidential inaugural speeches, DOD reports are more technical and focused on defense strategy, military capabilities, and international security rather than political rhetoric or public messaging.
+
+## Part 3: Wordfish Analysis
+
+**Running Wordfish Mode:**
+
+```{r}
+library(quanteda.textmodels)
+
+wf_model <- textmodel_wordfish(dfm_pres)
+summary(wf_model)
+```
+
+**Getting Document Positions:**
+
+```{r}
+doc_positions <- data.frame(
+  document = docnames(dfm_pres),
+  position = wf_model$theta
+)
+
+head(doc_positions)
+```
+
+**Plotting Positions:**
+
+I compared all speeches based on the words they use, and turned them into numbers so I can see which ones are similar or different. These positions allow us to compare speeches and identify how they differ in terms of language, tone, and focus. For example, speeches that emphasize similar topics will appear closer together, while those with different themes will be farther apart. This helps us understand patterns and variation across presidents and over time.
+
+```{r}
+library(ggplot2)
+
+doc_positions <- data.frame(
+  document = docnames(dfm_pres),
+  position = wf_model$theta
+)
+
+ggplot(doc_positions, aes(x = reorder(document, position), y = position)) +
+  geom_point() +
+  coord_flip() +
+  labs(title = "Wordfish Positions of Inaugural Speeches",
+       x = "Document",
+       y = "Position")
+```
+
+## Part 4: How to compare positions
+
+Wordfish is a type of text scaling method that assigns positions to documents based on their word usage. Scaling methods in general are used to place documents on a numerical scale so that they can be compared systematically.
+
+In this case, Wordfish estimates a position for each speech, where the distance between positions reflects differences in language and themes. Speeches that are closer together use more similar words, while those farther apart differ more significantly.
+
+Compared to simpler scaling approaches, Wordfish is a statistical model that accounts for word frequency patterns across documents, making it a more rigorous and data-driven method. Overall, scaling methods like Wordfish allow us to compare texts and identify patterns in political language over time.
+
+## Part 5: **Hackathon Analysis**
+
+Our group has already submitted the complete analysis in the Team Hackathon folder. In this individual assignment, I present a subset of the analysis to highlight my independent understanding and contribution to the overall project.
+
+### APSA eJobs Hackathon - Political Science Job Market Text Analysis
+
+EPPS 6323 Knowledge Mining\
+Data: Political Science Jobs PDFs (2016/06 - 2026/03)\
+Packages: quanteda suite
+
+### Script organization (question-driven)
+
+RQ Research Questions\
+§0 Load Packages\
+§1 Data Loading (PDF -\> RDS cache mechanism)\
+§2 Corpus Construction and Preprocessing\
+§3 Market Overview: Volume, COVID Shock, and Seasonality \[RQ1\]\
+§4 Descriptive Baseline: What Is the Market Talking About? \[RQ1\]\
+§5 Trend Analysis: Emerging Skills and Keyword Shifts \[RQ3\]\
+§6 Thematic Structure: Subfield Demand Over Time \[RQ2\]\
+§7 Market Structural Characteristics \[RQ1\]\
+§8 Language Style Shift: Has the Rhetoric Changed? \[RQ4\]\
+APP Appendix: FCM Co-occurrence Networks\
+§9 Export Results
+
+### Output image numbering
+
+§3 01–04 \| §4 05–08 \| §5 09–12\
+§6 13–16 \| §7 17–22 \| §8 23–28 \| APP 29–31
+
+------------------------------------------------------------------------
+
+### Research Questions
+
+**RQ1:** How have the scale and structure of the political science job market evolved over time?\
+(Did COVID reduce postings? How did academic vs. non-academic, junior vs. senior, and U.S. vs. international ratios change?)
+
+**RQ2:** Have the relative demand shares of major subfields shifted over time?\
+(American Politics, Comparative Politics, IR, Political Theory, Public Administration/Policy, Methodology)
+
+**RQ3:** Has demand for emerging skills and language—Data Science, Machine Learning, AI, DEI, Online Teaching—increased over the decade?
+
+**RQ4:** Has the language style of job ads (lexical diversity, readability, mandatory vs. preference language) changed systematically over time?
+
+```{r message=FALSE, warning=FALSE}
+# -----------------------------
+# 0. Packages
+# -----------------------------
+# install.packages(c(
+#   "tidyverse", "pdftools", "quanteda", "quanteda.textmodels",
+#   "quanteda.textplots", "quanteda.textstats", "ggplot2",
+#   "lubridate", "ggraph", "igraph", "scales"
+# ))
+
+library(tidyverse)
+library(pdftools)
+library(quanteda)
+library(quanteda.textmodels)
+library(quanteda.textplots)
+library(quanteda.textstats)
+library(ggplot2)
+library(lubridate)
+library(ggraph)
+library(igraph)
+library(scales)
+```
+
+## 2. Read PDFs + corpus
+
+```{r load_corpus, warning=FALSE, message=FALSE}
+pdf_folder <- "~/Downloads/PSJobs201606_202603"
+pdf_files <- list.files(pdf_folder, pattern = "\\.pdf$|\\.PDF$", full.names = TRUE)
+
+parse_date_from_filename <- function(filepath) {
+  fname <- basename(filepath)
+  yyyymm <- regmatches(fname, regexpr("[0-9]{6}", fname))
+  if (length(yyyymm) == 0 || is.na(yyyymm)) return(NULL)
+  
+  list(
+    year = as.integer(substr(yyyymm, 1, 4)),
+    month = as.integer(substr(yyyymm, 5, 6)),
+    yearmon = paste0(substr(yyyymm, 1, 4), "-", substr(yyyymm, 5, 6))
+  )
+}
+
+doc_texts <- c(); doc_years <- c(); doc_months <- c(); doc_dates <- c(); doc_names <- c()
+
+for (f in pdf_files) {
+  info <- parse_date_from_filename(f)
+  if (is.null(info)) next
+  
+  pages <- tryCatch(pdf_text(f), error = function(e) NULL)
+  if (is.null(pages)) next
+  
+  doc_texts <- c(doc_texts, paste(pages, collapse = " "))
+  doc_years <- c(doc_years, info$year)
+  doc_months <- c(doc_months, info$month)
+  doc_dates <- c(doc_dates, info$yearmon)
+  doc_names <- c(doc_names, basename(f))
+}
+
+doc_names_unique <- make.unique(doc_names)
+
+ejobs_corpus <- corpus(doc_texts, docnames = doc_names_unique)
+
+docvars(ejobs_corpus, "year") <- doc_years
+docvars(ejobs_corpus, "month") <- doc_months
+docvars(ejobs_corpus, "yearmon") <- doc_dates
+
+summary(ejobs_corpus)
+```
+
+## 3. Stopwords
+
+```{r define_stopwords}
+standard_stopwords <- stopwords("english")
+
+ejobs_stopwords <- c(
+  "application", "applications", "applicants", "applicant", "apply",
+  "submit", "submitted", "submission", "please", "send", "email",
+  "letter", "cover", "curriculum", "vitae", "cv", "resume",
+  "review", "begin", "beginning", "continue", "filled", "fill",
+  "materials", "material", "documents", "document", "upload",
+  "interfolio", "online", "system", "portal",
+  "position", "positions", "rank", "salary", "competitive",
+  "start", "date", "posted", "deadline", "open", "until",
+  "ejobs", "apsanet", "listing", "listings", "current",
+  "jobs", "job",
+  "equal", "opportunity", "affirmative", "action", "employer",
+  "discrimination", "regardless", "race", "color", "religion",
+  "sex", "sexual", "orientation", "gender", "identity", "age",
+  "disability", "veteran", "status", "minority", "minorities",
+  "diversity", "diverse", "inclusive", "inclusion",
+  "underrepresented", "backgrounds",
+  "letters", "recommendation", "references", "reference",
+  "three", "two", "one", "names", "contact", "information",
+  "fall", "spring", "summer", "academic", "year", "years",
+  "full", "time", "part", "semester", "annual",
+  "also", "well", "will", "including", "may",
+  "must", "can", "ability", "strong", "excellent", "experience",
+  "record", "evidence", "demonstrated", "commitment", "available",
+  "based", "following", "required", "preferred",
+  "candidate", "candidates", "successful", "qualified"
+)
+
+all_stopwords <- unique(c(standard_stopwords, ejobs_stopwords))
+
+length(all_stopwords)
+```
+
+# 3. Tokens and DFM
+
+```{r build_dfm}
+ejobs_tokens <- tokens(
+  ejobs_corpus,
+  remove_punct = TRUE,
+  remove_numbers = TRUE,
+  remove_symbols = TRUE,
+  remove_url = TRUE
+) |>
+  tokens_tolower() |>
+  tokens_remove(all_stopwords) |>
+  tokens_select(min_nchar = 3)
+
+important_compounds <- phrase(c(
+  "political science", "public policy", "public administration",
+  "international relations", "comparative politics", "political theory",
+  "american politics", "american government", "public law",
+  "tenure track", "assistant professor", "associate professor",
+  "visiting assistant", "postdoctoral fellow", "research associate",
+  "data science", "machine learning", "artificial intelligence",
+  "quantitative methods", "research methods", "mixed methods",
+  "teaching load", "course load", "liberal arts",
+  "graduate students", "undergraduate students",
+  "phd required", "phd preferred"
+))
+
+ejobs_tokens_comp <- tokens_compound(ejobs_tokens, pattern = important_compounds)
+
+ejobs_dfm <- dfm(ejobs_tokens) |> dfm_trim(min_termfreq = 5)
+ejobs_dfm_comp <- dfm(ejobs_tokens_comp) |> dfm_trim(min_termfreq = 5)
+
+cat("DFM docs:", ndoc(ejobs_dfm), "\n")
+cat("DFM features:", nfeat(ejobs_dfm), "\n")
+```
+
+# 4. Overall top 30 most frequent terms
+
+```{r plot_top_terms}
+top_freq <- textstat_frequency(ejobs_dfm, n = 30)
+
+ggplot(top_freq, aes(x = reorder(feature, frequency), y = frequency)) +
+  geom_col(fill = "#4A90E2", alpha = 0.9) +
+  coord_flip() +
+  labs(
+    title = "APSA eJobs - Top 30 Most Frequent Terms (2016-2026)",
+    subtitle = paste0("Based on ", ndoc(ejobs_dfm), " monthly issues"),
+    x = "Frequency",
+    y = "Term"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+# 5. Top terms by year
+
+```{r plot_terms_by_year}
+ejobs_dfm_year <- dfm_group(ejobs_dfm, groups = docvars(ejobs_corpus, "year"))
+
+top_freq_year <- textstat_frequency(
+  ejobs_dfm_year,
+  n = 15,
+  groups = docvars(ejobs_dfm_year, "year")
+)
+
+ggplot(top_freq_year, aes(x = frequency, y = fct_reorder(feature, frequency))) +
+  geom_col(fill = "#69B36D") +
+  facet_wrap(~ group, scales = "free_y") +
+  labs(
+    title = "APSA eJobs - Top Terms by Year",
+    x = "Frequency",
+    y = "Term"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+# 6. Word cloud
+
+```{r plot_wordcloud, warning=FALSE}
+textplot_wordcloud(ejobs_dfm, max_words = 100, min_size = 0.8, max_size = 3)
+```
+
+# 7. Relative frequency trend: research vs teaching
+
+```{r plot_research_teaching}
+track_trend <- function(dfm_obj, keyword) {
+  freq <- textstat_frequency(dfm_weight(dfm_obj, scheme = "prop"),
+                             groups = docvars(dfm_obj, "yearmon"))
+  freq |>
+    filter(feature == keyword) |>
+    mutate(yearmon_date = ym(group))
+}
+
+research_trend <- track_trend(ejobs_dfm, "research")
+teaching_trend <- track_trend(ejobs_dfm, "teaching")
+
+if (nrow(research_trend) > 0 && nrow(teaching_trend) > 0) {
+  trend_data <- bind_rows(
+    mutate(research_trend, keyword = "research"),
+    mutate(teaching_trend, keyword = "teaching")
+  )
+
+  ggplot(trend_data, aes(x = yearmon_date, y = frequency, color = keyword, group = keyword)) +
+    geom_line(linewidth = 0.9, alpha = 0.7) +
+    geom_smooth(method = "loess", se = TRUE, linewidth = 1.2, alpha = 0.15) +
+    scale_color_manual(values = c("research" = "#2E77D0", "teaching" = "#C62828")) +
+    labs(
+      title = 'Relative Frequency Trend: "research" vs "teaching"',
+      subtitle = "APSA eJobs 2016-2026",
+      x = "Year-Month",
+      y = "Relative Frequency (%)",
+      color = "Keyword"
+    ) +
+    theme_minimal(base_size = 14)
+}
+```
+
+# 8. Dictionary-based theme distribution
+
+```{r build_dictionary}
+polisci_dictionary <- dictionary(list(
+  American_Politics = c(
+    "american government", "american politics", "congress", "presidency",
+    "electoral", "elections", "voting", "legislature", "senate",
+    "supreme court", "constitutional", "federalism", "public opinion",
+    "political parties", "campaigns", "interest groups"
+  ),
+  International_Relations = c(
+    "international relations", "foreign policy", "security", "conflict",
+    "war", "peace", "diplomacy", "global", "geopolitics",
+    "international organization", "united nations", "arms", "nuclear",
+    "alliance", "hegemony"
+  ),
+  Comparative_Politics = c(
+    "comparative politics", "comparative", "democratization", "regime",
+    "authoritarian", "institutions", "developing", "europe",
+    "latin america", "asia", "africa", "middle east"
+  ),
+  Political_Theory = c(
+    "political theory", "political philosophy", "normative", "justice",
+    "liberalism", "democracy", "rights", "ethics", "deliberation",
+    "citizenship", "sovereignty", "legitimacy"
+  ),
+  Public_Admin_Policy = c(
+    "public administration", "public policy", "bureaucracy", "governance",
+    "implementation", "regulation", "nonprofit", "local government",
+    "urban", "budgeting", "mpa"
+  ),
+  Methodology = c(
+    "quantitative", "qualitative", "mixed methods", "statistics",
+    "regression", "experiment", "survey", "causal inference",
+    "machine learning", "data science", "computational", "text analysis",
+    "formal modeling", "game theory", "r programming"
+  ),
+  Tenure_Track = c(
+    "tenure track", "tenure-track", "tenured", "promotion",
+    "assistant professor", "associate professor", "full professor"
+  ),
+  Non_Tenure = c(
+    "visiting", "lecturer", "instructor", "non-tenure",
+    "term position", "one-year", "renewable"
+  ),
+  Postdoc = c(
+    "postdoctoral", "postdoc", "fellowship", "fellow",
+    "research associate", "research scholar"
+  ),
+  Digital_Skills = c(
+    "data", "computational", "programming", "python", "r studio",
+    "machine learning", "artificial intelligence", "big data",
+    "network analysis", "text analysis", "gis", "visualization"
+  ),
+  DEI_Language = c(
+    "diversity", "equity", "inclusion", "inclusive", "underrepresented",
+    "marginalized", "antiracist", "social justice", "belonging",
+    "multicultural"
+  ),
+  Online_Teaching = c(
+    "online", "remote", "hybrid", "distance learning", "asynchronous",
+    "synchronous", "virtual", "zoom"
+  )
+))
+
+dict_result <- dfm_lookup(dfm(ejobs_tokens_comp), dictionary = polisci_dictionary)
+
+theme_total <- convert(dict_result, to = "data.frame") |>
+  select(-doc_id) |>
+  summarise(across(everything(), sum)) |>
+  pivot_longer(everything(), names_to = "Theme", values_to = "Count") |>
+  arrange(desc(Count))
+
+ggplot(theme_total, aes(x = Count, y = fct_reorder(Theme, Count), fill = Theme)) +
+  geom_col(show.legend = FALSE, alpha = 0.9) +
+  labs(
+    title = "APSA eJobs - Theme Distribution (2016-2026)",
+    subtitle = "Dictionary-based analysis",
+    x = "Term Count",
+    y = "Theme"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+# 9. Theme trends over time
+
+```{r plot_theme_distribution}
+dict_df <- convert(dict_result, to = "data.frame") |>
+  mutate(
+    yearmon = docvars(dict_result, "yearmon"),
+    year = docvars(dict_result, "year")
+  )
+
+theme_trend <- dict_df |>
+  group_by(year) |>
+  summarise(across(where(is.numeric), sum), .groups = "drop") |>
+  pivot_longer(-year, names_to = "Theme", values_to = "Count")
+
+key_themes <- c("Digital_Skills", "DEI_Language", "Online_Teaching",
+                "Postdoc", "Tenure_Track", "Methodology")
+
+ggplot(filter(theme_trend, Theme %in% key_themes),
+       aes(x = year, y = Count, color = Theme, group = Theme)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.5) +
+  labs(
+    title = "Theme Trends Over Time - APSA eJobs (2016-2026)",
+    subtitle = "Annual aggregated dictionary term counts",
+    x = "Year",
+    y = "Term Count",
+    color = "Theme"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+# 10. KWIC on raw tokens for multi-word phrases
+
+```{r kwic_phrases}
+ejobs_tokens_raw <- tokens(
+  ejobs_corpus,
+  remove_punct = TRUE,
+  remove_numbers = TRUE,
+  remove_symbols = TRUE,
+  remove_url = TRUE
+) |>
+  tokens_tolower()
+
+multiword_patterns <- list(
+  "data science" = phrase("data science"),
+  "machine learning" = phrase("machine learning"),
+  "artificial intelligence" = phrase("artificial intelligence"),
+  "online teaching" = phrase("online teaching"),
+  "tenure track" = phrase("tenure track"),
+  "political science" = phrase("political science"),
+  "public policy" = phrase("public policy"),
+  "assistant professor" = phrase("assistant professor"),
+  "postdoctoral fellow" = phrase("postdoctoral fellow"),
+  "diversity equity" = phrase("diversity equity")
+)
+
+kwic_count_df <- data.frame(pattern = character(), count = integer())
+
+for (label in names(multiword_patterns)) {
+  result <- kwic(ejobs_tokens_raw, pattern = multiword_patterns[[label]], window = 4)
+  kwic_count_df <- bind_rows(
+    kwic_count_df,
+    data.frame(pattern = label, count = nrow(result))
+  )
+}
+
+kwic_count_df <- kwic_count_df |> arrange(desc(count))
+```
+
+## Phrase bar chart
+
+```{r kwic_phrases bar chart}
+ggplot(kwic_count_df, aes(x = count, y = fct_reorder(pattern, count), fill = count)) +
+  geom_col(show.legend = FALSE, alpha = 0.85) +
+  geom_text(aes(label = count), hjust = -0.15, size = 4) +
+  scale_fill_gradient(low = "#BBDEFB", high = "#0D47A1") +
+  expand_limits(x = max(kwic_count_df$count) * 1.1) +
+  labs(
+    title = "Multi-word Phrase Frequency in APSA eJobs (2016-2026)",
+    subtitle = "Searched on raw (non-stopword-removed) tokens",
+    x = "Total Occurrences",
+    y = "Phrase"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+# 11. Emerging phrase trends over time
+
+```{r emerging phrase trends}
+count_by_year <- function(tokens_obj, pat, year_vec) {
+  result <- kwic(tokens_obj, pattern = pat, window = 1)
+  if (nrow(result) == 0) return(data.frame(year = integer(), count = integer()))
+  result$year <- year_vec[match(result$docname, names(tokens_obj))]
+  result |>
+    group_by(year) |>
+    summarise(count = n(), .groups = "drop")
+}
+
+doc_year_map <- setNames(docvars(ejobs_corpus, "year"), docnames(ejobs_corpus))
+
+ds_year <- count_by_year(ejobs_tokens_raw, phrase("data science"), doc_year_map)
+ml_year <- count_by_year(ejobs_tokens_raw, phrase("machine learning"), doc_year_map)
+ai_year <- count_by_year(ejobs_tokens_raw, phrase("artificial intelligence"), doc_year_map)
+dei_year <- count_by_year(ejobs_tokens_raw, phrase("diversity equity"), doc_year_map)
+
+phrase_trend <- bind_rows(
+  mutate(ds_year, phrase = "data science"),
+  mutate(ml_year, phrase = "machine learning"),
+  mutate(ai_year, phrase = "artificial intelligence"),
+  mutate(dei_year, phrase = "diversity equity")
+) |>
+  filter(!is.na(year))
+
+if (nrow(phrase_trend) > 0) {
+  ggplot(phrase_trend, aes(x = year, y = count, color = phrase, group = phrase)) +
+    geom_line(linewidth = 1.2) +
+    geom_point(size = 2.5) +
+    scale_x_continuous(breaks = 2016:2026) +
+    labs(
+      title = "Emerging Keyword Trends in APSA eJobs (2016-2026)",
+      subtitle = "Annual occurrence of selected multi-word phrases",
+      x = "Year",
+      y = "Occurrences",
+      color = "Phrase"
+    ) +
+    theme_minimal(base_size = 14)
+}
+```
+
+# 12. Co-occurrence network
+
+```{r network}
+top_terms_40 <- names(topfeatures(ejobs_dfm, 40))
+ejobs_fcm <- fcm(ejobs_tokens)
+ejobs_fcm_select <- fcm_select(ejobs_fcm, pattern = top_terms_40)
+
+textplot_network(
+  ejobs_fcm_select,
+  min_freq = 0.6,
+  edge_alpha = 0.4,
+  edge_color = "#1565C0",
+  vertex_labelsize = 3.5,
+  vertex_color = "#FFF9C4",
+  vertex_size = 2
+)
+```
+
+# 13. Wordfish by year
+
+```{r wordfish 1}
+ejobs_dfm_year_wf <- ejobs_dfm_year |>
+  dfm_trim(min_termfreq = 10, max_docfreq = 0.95, docfreq_type = "prop")
+
+set.seed(2024)
+wf_model <- textmodel_wordfish(ejobs_dfm_year_wf, dir = c(1, ndoc(ejobs_dfm_year_wf)))
+
+wf_df <- data.frame(
+  year = rownames(ejobs_dfm_year_wf),
+  theta = wf_model$theta,
+  se = wf_model$se.theta
+)
+
+ggplot(wf_df, aes(x = theta, y = reorder(year, theta))) +
+  geom_point(size = 3, color = "#1565C0") +
+  geom_errorbarh(aes(xmin = theta - 1.96 * se, xmax = theta + 1.96 * se),
+                 height = 0.25, color = "#1565C0", alpha = 0.65) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey50") +
+  labs(
+    title = "Wordfish Document Positions by Year - APSA eJobs",
+    subtitle = "Negative theta = earlier language style | Positive = recent language style",
+    x = "Estimated Position (theta ± 95% CI)",
+    y = "Year"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+# 14. Wordfish feature positions
+
+```{r wordfish positions}
+wf_features <- data.frame(
+  feature = wf_model$features,
+  beta = wf_model$beta,
+  psi = wf_model$psi
+) |>
+  arrange(desc(abs(beta)))
+
+highlight_words <- c(head(wf_features$feature, 15), tail(wf_features$feature, 15))
+
+textplot_scale1d(wf_model, margin = "features", highlighted = highlight_words)
+```
+
+# 15. Keyness: recent vs early
+
+```{r keyness_recent_vs_early, message=FALSE, warning=FALSE}
+period_group <- ifelse(
+  docvars(ejobs_corpus, "year") <= 2019,
+  "Early_2016_2019",
+  "Recent_2020_2026"
+)
+
+ejobs_dfm_period <- dfm_group(
+  ejobs_dfm,
+  groups = period_group
+)
+
+keyness_result <- textstat_keyness(
+  ejobs_dfm_period,
+  target = "Recent_2020_2026",
+  measure = "chi2"
+)
+
+textplot_keyness(
+  keyness_result,
+  n = 20,
+  color = c("#B71C1C", "#1565C0")
+) +
+  labs(
+    title = "Keyness Analysis: Recent (2020-2026) vs Early (2016-2019)",
+    subtitle = "Red = more frequent recently | Blue = more frequent early"
+  ) +
+  theme_minimal(base_size = 12)
+```
