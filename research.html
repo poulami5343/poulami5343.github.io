@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Poulami Sarker">
 
-<title>EPPS 6323 — Assignment 3 – Poulami Sarker</title>
+<title>Research – Poulami Sarker</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -131,7 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./research.html"> 
+    <a class="nav-link active" href="./research.html" aria-current="page"> 
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -174,9 +138,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./Labs/Lab03.html">
  <span class="dropdown-text">Lab 3</span></a>
   </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-reflections" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Reflections</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-reflections">    
         <li>
     <a class="dropdown-item" href="./weekly_reflections_epps6323.html">
- <span class="dropdown-text">Reflections</span></a>
+ <span class="dropdown-text">Weekly Reflections</span></a>
   </li>  
     </ul>
   </li>
@@ -196,15 +167,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#load-data" id="toc-load-data" class="nav-link active" data-scroll-target="#load-data">3. Load Data:</a></li>
-  <li><a href="#multiple-regression" id="toc-multiple-regression" class="nav-link" data-scroll-target="#multiple-regression">4. Multiple Regression:</a></li>
-  <li><a href="#function-regplot" id="toc-function-regplot" class="nav-link" data-scroll-target="#function-regplot">Function: regplot:</a></li>
-  <li><a href="#regplot-on-the-dependent-variables" id="toc-regplot-on-the-dependent-variables" class="nav-link" data-scroll-target="#regplot-on-the-dependent-variables">5. Regplot on the Dependent Variables</a></li>
-  <li><a href="#regression-plot-age" id="toc-regression-plot-age" class="nav-link" data-scroll-target="#regression-plot-age">Regression Plot: Age:</a></li>
-  <li><a href="#regression-plot-education" id="toc-regression-plot-education" class="nav-link" data-scroll-target="#regression-plot-education">Regression Plot: Education:</a></li>
-  <li><a href="#regression-plot-income" id="toc-regression-plot-income" class="nav-link" data-scroll-target="#regression-plot-income">Regression Plot: Income:</a></li>
-  <li><a href="#what-is-the-problem-and-why" id="toc-what-is-the-problem-and-why" class="nav-link" data-scroll-target="#what-is-the-problem-and-why">6. What is the problem and why?</a></li>
-  <li><a href="#how-can-prediction-be-improved" id="toc-how-can-prediction-be-improved" class="nav-link" data-scroll-target="#how-can-prediction-be-improved">7. How can prediction be improved?</a></li>
+  <li><a href="#research-interests" id="toc-research-interests" class="nav-link active" data-scroll-target="#research-interests">Research Interests</a></li>
+  <li><a href="#publications" id="toc-publications" class="nav-link" data-scroll-target="#publications">Publications</a>
+  <ul class="collapse">
+  <li><a href="#journal-articles" id="toc-journal-articles" class="nav-link" data-scroll-target="#journal-articles">Journal Articles</a></li>
+  </ul></li>
+  <li><a href="#working-papers" id="toc-working-papers" class="nav-link" data-scroll-target="#working-papers">Working Papers</a></li>
+  <li><a href="#conference-presentations" id="toc-conference-presentations" class="nav-link" data-scroll-target="#conference-presentations">Conference Presentations</a></li>
+  <li><a href="#methods-technical-skills" id="toc-methods-technical-skills" class="nav-link" data-scroll-target="#methods-technical-skills">Methods &amp; Technical Skills</a></li>
   </ul>
 </nav>
     </div>
@@ -213,19 +183,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">EPPS 6323 — Assignment 3</h1>
+<h1 class="title">Research</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Poulami Sarker </p>
-          </div>
-  </div>
     
   
     
@@ -236,104 +200,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>In addition to the analysis presented in this document, the corresponding lab work (Lab_ML01) has been rendered and uploaded to the course website under the “Labs” section as Lab 3. The lab files include the full code, output, and visualizations used in the exploratory data analysis</strong></p>
-<section id="load-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-data">3. Load Data:</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>TEDS_2016 <span class="ot">&lt;-</span> <span class="fu">read_stata</span>(<span class="st">"https://github.com/datageneration/home/blob/master/DataProgramming/data/TEDS_2016.dta?raw=true"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
+<section id="research-interests" class="level2">
+<h2 class="anchored" data-anchor-id="research-interests">Research Interests</h2>
+<p>My research sits at the intersection of <strong>health economics, demographic behavior, and the political economy of labor and public policy</strong> — with a focus on environmental health, global health financing, and inequality in low-resource settings. Methodologically, I specialize in quasi-experimental designs (RDD, DiD), DHS-based survey analysis, and computational text analysis, with all empirical work implemented in R.</p>
+<hr>
 </section>
-<section id="multiple-regression" class="level2">
-<h2 class="anchored" data-anchor-id="multiple-regression">4. Multiple Regression:</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(Tondu <span class="sc">~</span> age <span class="sc">+</span> edu <span class="sc">+</span> income, <span class="at">data =</span> TEDS_2016)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = Tondu ~ age + edu + income, data = TEDS_2016)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--3.7780 -1.1841 -0.4322  1.1079  5.4157 
-
-Coefficients:
-             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  5.302529   0.257369  20.603  &lt; 2e-16 ***
-age         -0.004205   0.003194  -1.316   0.1882    
-edu         -0.244608   0.037579  -6.509 9.96e-11 ***
-income      -0.031855   0.016357  -1.948   0.0516 .  
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 1.725 on 1676 degrees of freedom
-  (10 observations deleted due to missingness)
-Multiple R-squared:  0.04287,   Adjusted R-squared:  0.04115 
-F-statistic: 25.02 on 3 and 1676 DF,  p-value: 7.771e-16</code></pre>
-</div>
-</div>
+<section id="publications" class="level2">
+<h2 class="anchored" data-anchor-id="publications">Publications</h2>
+<section id="journal-articles" class="level3">
+<h3 class="anchored" data-anchor-id="journal-articles">Journal Articles</h3>
+<p><strong>Sarker, P., &amp; Das Gupta, R.</strong> (forthcoming). <em>Cancer Screening Inequality in Tajikistan: Socioeconomic Disparities in Breast and Cervical Cancer Screening Access.</em> JCO Global Oncology.</p>
+<p><strong>Sarker, P., &amp; Bari, M. A.</strong> (forthcoming). <em>The Impact of Employer-Sponsored Childcare Facilities on Employee Retention: A Fuzzy Regression Discontinuity Approach.</em> Presented: Western Social Science Association 2026.</p>
+<hr>
 </section>
-<section id="function-regplot" class="level2">
-<h2 class="anchored" data-anchor-id="function-regplot">Function: regplot:</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>regplot<span class="ot">=</span><span class="cf">function</span>(x,y){</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> fit<span class="ot">=</span><span class="fu">lm</span>(y<span class="sc">~</span>x)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(x,y)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">abline</span>(fit,<span class="at">col=</span><span class="st">"red"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 </section>
-<section id="regplot-on-the-dependent-variables" class="level2">
-<h2 class="anchored" data-anchor-id="regplot-on-the-dependent-variables">5. Regplot on the Dependent Variables</h2>
+<section id="working-papers" class="level2">
+<h2 class="anchored" data-anchor-id="working-papers">Working Papers</h2>
+<p><strong>Sarker, P., &amp; Lin, Y.</strong> (2026). <em>Loss and Longing: Fertility Preferences Following Child Loss.</em> Presented: Population Association of America 2026.</p>
+<blockquote class="blockquote">
+<p>This paper examines how experiencing child loss shapes subsequent fertility preferences using nationally representative DHS data from Bangladesh. I analyze how demographic, socioeconomic, and household factors interact with reproductive preferences after loss, contributing to demographic research and reproductive health policy.</p>
+</blockquote>
+<hr>
+<p><strong>Sarker, P., &amp; Bin Kamal, K.</strong> (2026). <em>Wrongful Discharge Laws and Firm Productivity: Evidence from Quasi-Experimental Variation in Employment Protection.</em> Selected: Midwest Political Science Association 2026.</p>
+<blockquote class="blockquote">
+<p>This paper studies how the adoption of wrongful discharge laws affects labor productivity and firm outcomes. Leveraging state-level policy variation, I use quasi-experimental methods to assess dynamic effects over time, contributing to the political economy of labor regulation and institutional design.</p>
+</blockquote>
+<hr>
+<p><strong>Sarker, P., &amp; Das Gupta, R.</strong> (2026). <em>Overweight and Obesity Among Women of Reproductive Age in Tajikistan.</em> Under review, PLOS ONE.</p>
+<hr>
+<p><strong>Sarker, P.</strong> (2026). <em>Donor Dependence, PEPFAR, and Drug Pricing: Political Economy of Global Health Financing in Low-Resource Settings.</em></p>
+<hr>
+<p><strong>Sarker, P.</strong> (2026). <em>Media Framing of Immigration Enforcement: Ideological Variation Across Major U.S. News Outlets.</em></p>
+<blockquote class="blockquote">
+<p>This project uses computational text analysis to examine how major U.S. news outlets frame immigration enforcement differently across the ideological spectrum. Using corpus construction, document-feature matrices, and quanteda scaling models, I identify systematic variation in framing that maps onto outlet ideology.</p>
+</blockquote>
+<hr>
 </section>
-<section id="regression-plot-age" class="level2">
-<h2 class="anchored" data-anchor-id="regression-plot-age">Regression Plot: Age:</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>age, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="epps6323assignment3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
+<section id="conference-presentations" class="level2">
+<h2 class="anchored" data-anchor-id="conference-presentations">Conference Presentations</h2>
+<ul>
+<li><strong>Population Association of America 2026</strong> — <em>Loss and Longing: Fertility Preferences Following Child Loss</em></li>
+<li><strong>Western Social Science Association 2026</strong> — <em>The Impact of Employer-Sponsored Childcare Facilities on Employee Retention: A Fuzzy Regression Discontinuity Approach</em></li>
+<li><strong>Midwest Political Science Association 2026</strong> — <em>Wrongful Discharge Laws and Firm Productivity</em></li>
+</ul>
+<hr>
 </section>
-<section id="regression-plot-education" class="level2">
-<h2 class="anchored" data-anchor-id="regression-plot-education">Regression Plot: Education:</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>edu, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="epps6323assignment3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="regression-plot-income" class="level2">
-<h2 class="anchored" data-anchor-id="regression-plot-income">Regression Plot: Income:</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">regplot</span>(TEDS_2016<span class="sc">$</span>income, TEDS_2016<span class="sc">$</span>Tondu)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="epps6323assignment3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="what-is-the-problem-and-why" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-the-problem-and-why">6. What is the problem and why?</h2>
-<p>The dependent variable (Tondu) has multiple categories (more than two categories), so it is not a continuous variable. Linear regression assumes a continuous dependent variable with equal spacing between values, which is not appropriate here. Because Tondu is categorical with several categories, the regression model and plots are not suitable.</p>
-</section>
-<section id="how-can-prediction-be-improved" class="level2">
-<h2 class="anchored" data-anchor-id="how-can-prediction-be-improved">7. How can prediction be improved?</h2>
-<p>To improve prediction, a model suitable for categorical outcomes should be used. For example, ordinal logistic regression or multinomial logistic regression would be more appropriate because they can handle multiple categories in the dependent variable without assuming equal distance between them.</p>
+<section id="methods-technical-skills" class="level2">
+<h2 class="anchored" data-anchor-id="methods-technical-skills">Methods &amp; Technical Skills</h2>
+<p><strong>Causal Inference &amp; Econometrics</strong> Regression Discontinuity Design (RDD and Fuzzy RDD), Difference-in-Differences, panel data methods, quasi-experimental designs, robustness testing</p>
+<p><strong>Survey &amp; Demographic Analysis</strong> DHS multi-wave data, sampling weights, weighted regression and logistic models, field instrument design</p>
+<p><strong>Computational Text Analysis</strong> Corpus construction, document-feature matrices, quanteda scaling models, tidytext</p>
+<p><strong>Software</strong> R (advanced) · Stata (intermediate) · SPSS · ODK/SurveyCTO · Git/GitHub</p>
 
 
 </section>
