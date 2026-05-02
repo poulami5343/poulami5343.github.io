@@ -29,8 +29,11 @@ website:
           - text: Lab 3
             href: Labs/Lab03.qmd
             
-          - text: Reflections
-            href: weekly_reflections_epps6323.md
+      - text: Reflections
+       menu:
+          - text: Weekly Reflections
+            href: weekly_reflections_epps6323.qmd 
+          
 
 format:
   html:
