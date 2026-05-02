@@ -10,7 +10,7 @@ website:
       - text: Research
         href: research.qmd
       - text: EPPS 6323
-        menu:
+          menu:
           - text: Assignment 1
             href: epps6323assignment1.qmd
           - text: Assignment 2
@@ -21,7 +21,7 @@ website:
             href: epps6323assignment4.qmd
           
       - text: Labs
-        menu:
+          menu:
           - text: Lab 1
             href: Labs/Lab01.qmd
           - text: Lab 2
@@ -29,11 +29,10 @@ website:
           - text: Lab 3
             href: Labs/Lab03.qmd
             
-      - text: Reflections
-       menu:
-          - text: Weekly Reflections
-            href: weekly_reflections_epps6323.qmd 
-          
+        - text: Reflections
+          menu:
+            - text: Weekly Reflections
+              href: weekly_reflections_epps6323.qmd
 
 format:
   html:
