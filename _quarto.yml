@@ -17,6 +17,8 @@ website:
             href: epps6323assignment2.qmd
           - text: Assignment 3
             href: epps6323assignment3.qmd
+          - text: Assignment 4
+            href: epps6323assignment4.qmd
           
       - text: Labs
         menu:
@@ -27,8 +29,8 @@ website:
           - text: Lab 3
             href: Labs/Lab03.qmd
             
-      - text: Reflections
-        href: weeklyreflectionepps6323.qmd
+          - text: Reflections
+            href: weekly_reflections_epps6323.md
 
 format:
   html:
